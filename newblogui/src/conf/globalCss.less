@@ -1,0 +1,48 @@
+// ==五等分主题==
+@mainColor: var(--main--color);
+// 五姐妹颜色
+@oneColor: #bbb4b4;
+@twoColor: #e58484;
+@threeColor: #5a4141;
+@fourColor: #c5f807;
+@fiveColor: #f30606;
+// 五姐妹图片
+@oneImg: "../assets/img/1.png";
+@twoImg: "../assets/img/2.png";
+@threeImg: "../assets/img/3.png";
+@fourImg: "../assets/img/4.png";
+@fiveImg: "../assets/img/5.png";
+
+// 五姐妹背面图片
+@oneBackImg: "../assets/img/1back.png";
+@twoBackImg: "../assets/img/2back.png";
+@threeBackImg: "../assets/img/3back.png";
+@fourBackImg: "../assets/img/4back.png";
+@fiveBackImg: "../assets/img/5back.png";
+
+// 音乐默认图标和鼠标放置图标
+@musicDefaultImg: "../assets/img/musicIcon.png";
+@musicChooseImg: "../assets/img/choose.png";
+
+// 磨砂效果
+.frosted(){
+  &:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    margin: -20px;
+  }
+}
+
+
+
+
+
+
