@@ -11,6 +11,8 @@
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "element-plus": "^1.1.0-beta.12",
+    "marked": "^3.0.8",
+    "md-editor-v3": "^1.6.3",
     "vue": "^3.0.0",
     "vue-axios": "^3.3.7",
     "vue-router": "^4.0.0-0",

@@ -3,6 +3,25 @@
     <div id="rightMenu">
         <div v-if="!isTop" id="top" class="iconfont icon-top2" @click="moveTop" title="回到顶部"></div>
         <div v-if="isTop" id="default" class="iconfont icon-yuan"></div>
+        <router-link :to="{name:'Index'}">
+            <div class="iconfont icon-shouye" title="首页"></div>
+        </router-link>
+
+        <router-link :to="{name: 'Search'}">
+            <div class="iconfont icon-sousuo" title="搜索"></div>
+        </router-link>
+
+        <router-link :to="{name: 'Forum'}">
+            <div class="iconfont icon-luntan" title="论坛"></div>
+        </router-link>
+
+        <router-link :to="{name: 'FriendLink'}">
+            <div class="iconfont icon-youlianguanli" title="友链"></div>
+        </router-link>
+
+        <router-link :to="{name: 'Search'}">
+            <div class="iconfont icon-ganxingqu" title="分享"></div>
+        </router-link>
     </div>
 </template>
 
@@ -49,34 +68,28 @@
         transform: translate(-50%,0);
         box-shadow: @mainColor 2px 2.5px 3px 2px;
         overflow: hidden;
+        display: block;
+        .frosted();
 
-        &:before {
-            content: "";
-            position: absolute;
-            background: inherit;
-            z-index: -1;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
-            filter: blur(10px);
-            margin: -20px;
+        a{
+            text-decoration: none;
+            color: #101010;
         }
 
-        #top,#default{
+        div{
             font-size: 1.5vw;
-            position: absolute;
+            text-align: center;
             height: 3vw;
             line-height: 3vw;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%,0);
-            z-index: 99;
-            animation: 1.5s show;
+            text-shadow: white 0.3px 0.3px 0.3px;
             &:hover{
                 color: rgba(146, 143, 193, 0.98);
             }
+        }
+
+        #top,#default{
+            z-index: 99;
+            animation: 1.5s show;
         }
         @keyframes show {
             0%{

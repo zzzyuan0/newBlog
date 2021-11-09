@@ -8,11 +8,11 @@
                         <div class="card" v-for="item in card" :key="item"   @mouseover="choose(item.id)">
                                 <div class="front" :id="item.id"></div>
                                 <div class="back" :id = "item.id + 'Back'">
-                                        <a class="">
+                                        <router-link :to="{name:item.path}">
                                                 <span>
                                                         {{item.title}}
                                                 </span>
-                                        </a>
+                                        </router-link>
                                 </div>
                         </div>
                 </div>
@@ -28,19 +28,24 @@
                 let headHeight = ref(0)
                 const card = reactive([{
                         id:'one',
-                        title:'首页'
+                        title:'首页',
+                        path: 'Index'
                 },{
                         id:'two',
-                        title: '检索'
+                        title: '检索',
+                        path: 'Search'
                 },{
                         id:'three',
-                        title: '兴趣'
+                        title: '论坛',
+                        path: 'Forum'
                 },{
                         id:'four',
-                        title: '友链'
+                        title: '友链',
+                        path: 'FriendLink'
                 },{
                         id:'five',
-                        title: '分享'
+                        title: '分享',
+                        path: 'Search'
                 }])
                 const choose = (e) => {
                         ChangeThemes(e)
@@ -116,6 +121,7 @@
                         .back{
                                 transform: rotateY(180deg);
                                 a {
+                                        z-index: 999;
                                         span {
                                                 position: absolute;
                                                 display: inline-block;

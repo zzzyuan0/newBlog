@@ -24,11 +24,14 @@
 @musicDefaultImg: "../assets/img/musicIcon.png";
 @musicChooseImg: "../assets/img/choose.png";
 
+// 子页面背景，子页面头部背景
+@childBackGround: '~@/assets/img/star2.jpg';
+@childHeadBackGround: '~@/assets/img/star.jpeg';
+
 // 磨砂效果
 .frosted(){
   &:before {
     content: "";
-    position: absolute;
     background: inherit;
     z-index: -1;
     top: 0;
@@ -37,7 +40,6 @@
     bottom: 0;
     box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
     filter: blur(10px);
-    margin: -20px;
   }
 }
 

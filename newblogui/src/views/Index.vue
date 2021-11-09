@@ -4,24 +4,31 @@
         <div id="container" ref="container">
             <div id="articles">
                 <div id="sticks">
-                    <div class="stick" :style="stickOneOrTwo">
-                        <div class="stickIcon">
-                            置顶
+                    <router-link to="/article" class="stick" :style="stickOneOrTwo">
+                        <div >
+                            <div class="stickIcon">
+                                置顶
+                            </div>
+                            <div class="title">第一章</div>
+                            <div class="categories">
+                                <label class="category"></label>
+                            </div>
                         </div>
-                        <div class="title">第一章</div>
-                        <div class="categories">
-                            <label class="category"></label>
+                    </router-link>
+                    <router-link to="/article" class="stick" :style="stickOneOrTwo">
+                        <div>
+                            <div class="stickIcon" >
+                                置顶
+                            </div>
                         </div>
-                    </div>
-                    <div class="stick" :style="stickOneOrTwo">
-                        <div class="stickIcon" >
-                            置顶
-                        </div>
-                    </div>
+                    </router-link>
+
                 </div>
-                <div class="article" v-for="(art,index1) in showArticlesArr" :id="index1" :ref="'art' + index1">
-                    {{art.id}}
-                </div>
+                <router-link to="/article">
+                    <div class="article" v-for="(art,index1) in showArticlesArr" :id="index1" :ref="'art' + index1">
+                        {{art.id}}
+                    </div>
+                </router-link>
             </div>
         </div>
         <left-menu id="leftMenu"></left-menu>
@@ -196,6 +203,7 @@ export default {
                             filter: blur(4px);
                             z-index: 2;
                         }
+
                     }
                 }
                 #sticks{
@@ -247,7 +255,7 @@ export default {
             min-height: 20vh;
         }
         #leftMenu,#rightMenu {
-            z-index: 9;
+            z-index: 999;
         }
     }
 

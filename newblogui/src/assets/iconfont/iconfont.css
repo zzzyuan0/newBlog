@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2824048 */
-  src: url('iconfont.woff2?t=1632555854538') format('woff2'),
-       url('iconfont.woff?t=1632555854538') format('woff'),
-       url('iconfont.ttf?t=1632555854538') format('truetype');
+  src: url('iconfont.woff2?t=1635055183253') format('woff2'),
+       url('iconfont.woff?t=1635055183253') format('woff'),
+       url('iconfont.ttf?t=1635055183253') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,122 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-youxiang:before {
+  content: "\e678";
+}
+
+.icon-csdn:before {
+  content: "\e605";
+}
+
+.icon-github:before {
+  content: "\e604";
+}
+
+.icon-shouye:before {
+  content: "\e610";
+}
+
+.icon-ganxingqu:before {
+  content: "\e630";
+}
+
+.icon-luntan:before {
+  content: "\e641";
+}
+
+.icon-youlianguanli:before {
+  content: "\e663";
+}
+
+.icon-sousuo:before {
+  content: "\e603";
+}
+
+.icon-pinglun:before {
+  content: "\e6ad";
+}
+
+.icon-redu:before {
+  content: "\e619";
+}
+
+.icon-fenlei:before {
+  content: "\e63f";
+}
+
+.icon-daduoyun:before {
+  content: "\e62d";
+}
+
+.icon-taiyangyu-yewan:before {
+  content: "\e659";
+}
+
+.icon-tianqi:before {
+  content: "\e61b";
+}
+
+.icon-Taiyang:before {
+  content: "\e602";
+}
+
+.icon-taiyang:before {
+  content: "\e6db";
+}
+
+.icon-bingbao:before {
+  content: "\e622";
+}
+
+.icon-duoyun:before {
+  content: "\e623";
+}
+
+.icon-qiangduiliu:before {
+  content: "\e624";
+}
+
+.icon-baoyu:before {
+  content: "\e625";
+}
+
+.icon-dayu:before {
+  content: "\e626";
+}
+
+.icon-yintian:before {
+  content: "\e627";
+}
+
+.icon-qingtian:before {
+  content: "\e628";
+}
+
+.icon-xiaoxue:before {
+  content: "\e629";
+}
+
+.icon-zhongxue:before {
+  content: "\e62a";
+}
+
+.icon-wanqingtian:before {
+  content: "\e62b";
+}
+
+.icon-yujiaxue:before {
+  content: "\e62c";
+}
+
+.icon-wanduoyun:before {
+  content: "\e62e";
+}
+
+.icon-leizhenyu:before {
+  content: "\e62f";
 }
 
 .icon-24gf-pause2:before {

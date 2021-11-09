@@ -17,13 +17,19 @@ import {service} from './conf/axiosConf'
 
 // 引入iconfont
 import './assets/less/index.less'
+import './assets/iconfont/iconfont.js'
 
 // 引入字体
 import './conf/ttfConfig.css'
 
+// 引入markdown編輯器
+import MdEditor from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
+
 const app = createApp(App).use(store).use(router)
 app.use(ElementPlus)
 app.use(VueAxios, axios)
+app.use(MdEditor)
 
 app.config.globalProperties.$axios = service
 

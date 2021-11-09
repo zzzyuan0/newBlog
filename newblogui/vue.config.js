@@ -8,5 +8,6 @@ module.exports = {
       preProcessor: 'less',
       patterns: path.resolve(__dirname, 'src/conf/globalCss.less')
     }
-  }
+  },
+
 }
