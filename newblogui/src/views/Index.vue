@@ -25,13 +25,13 @@
 
                 </div>
                 <router-link to="/article">
-                    <div class="article" v-for="(art,index1) in showArticlesArr" :id="index1" :ref="'art' + index1">
-                        {{art.id}}
+                    <div v-if="imgPath.length != 0" class="article" :style="{backgroundImage: 'url(' + imgPath[index].imgUrl + ')'}" v-for="(art,index) in showArticlesArr" :id="index" :ref="'art' + index">
+                        {{art.id + art.title}}
                     </div>
                 </router-link>
             </div>
         </div>
-        <left-menu id="leftMenu"></left-menu>
+        <left-menu v-if="leftData.isShow" id="leftMenu" :leftData="leftData"></left-menu>
         <right-menu id="rightMenu" ref="rightMenu"></right-menu>
         <Music></Music>
         <div id="foot">
@@ -42,7 +42,8 @@
 
 <script>
 import {loadComponent} from "../utils/importUtil"
-import {ref,reactive} from "vue"
+import {getIndexApi} from "../api";
+import {ref,reactive,onMounted,onUnmounted} from "vue"
 import Head from "../components/Head";
 
 export default {
@@ -56,50 +57,47 @@ export default {
   setup(){
       // 判断一个还是两个置顶文章
       const stickOneOrTwo = ref({width:"48%"} )
-
-      // 动态加载文章
-      const articles = [{
-          id: 1,
-          title: '文章一'
-      },{
-          id: 2,
-          title: '文章一'
-      },{
-          id: 3,
-          title: '文章一'
-      },{
-          id: 4,
-          title: '文章一'
-      },{
-          id: 5,
-          title: '文章一'
-      },{
-          id: 6,
-          title: '文章一'
-      }]
+// 动态加载文章
+      let articles = reactive([{
+          id:0,
+          title:''
+      }])
       let showArticlesArr = reactive([])
-      showArticlesArr.push(articles[0])
+
+      let imgPath = reactive([])
+
+      let leftData = reactive({isShow:false})
+      getIndexApi().then(res => {
+          articles = reactive( res.articleList)
+          showArticlesArr.push(articles[0])
+          // 响应式赋值
+          Object.assign(imgPath,res.imgList)
+          leftData.categoryList = res.categoryList
+          leftData.articleHeatList = res.articleHeatList
+          leftData.commentHeatList = res.commentHeatList
+          leftData.isShow = true
+      })
+
+
       function autoShowArticles(){
           let len = 'art' + (showArticlesArr.length-1)
           let art = eval('this.$refs.' + len)  ;
+          if(!art) return
           let headHeight = this.$refs.heads.headHeight
           let artTop = art.offsetTop
           let scrollTop = document.body.scrollTop;
           let innerHeight = document.body.offsetHeight;
-
           if( (headHeight + artTop + headHeight/3 < scrollTop + innerHeight) && articles.length > showArticlesArr.length){
                this.showArticlesArr.push(articles[showArticlesArr.length])
           }else if(articles.length <= showArticlesArr.length){
               this.$refs.container.style.paddingBottom = "5vw";
           }
-
-
       }
 
       let listenMethod = ()=>{}
 
       return {
-          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod
+          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod,imgPath,leftData
       }
   },mounted() {
         this.listenMethod = setInterval(()=>{

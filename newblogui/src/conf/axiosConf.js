@@ -1,38 +1,33 @@
 import {ElMessage,ElLoading} from "element-plus"
 import {baseUrl} from "./globalConf";
 import axios from "axios";
+import store from '../store'
+import router from "../router";
 
-let loadingInstance = null
+axios.defaults.baseURL = baseUrl
+axios.defaults.timeout = 10000;
 
-export const service = axios.create({
-    timeout: 7000, // 请求超时时间
-    baseURL: baseUrl,
-    method: 'post',
-    headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
-    }
-})
+//前置攔截
+axios.interceptors.request.use(config => {
+    let token = store.getters.getToken
+    if (!token) return config
+    token = token.tokenType + token.accessToken
+    token && (config.headers.Authorization = token)
 
-// 请求拦截器
-service.interceptors.request.use(config => {
-    loadingInstance = ElLoading.service({
-        lock: true,
-        text: 'loading....'
-    })
     return config
+},error => {
+    console.log(error)
 })
+//后置拦截
+axios.interceptors.response.use(res => {
+    res = res.data
+    if (res.code >= 400) {
+        alert("错误")
+    }
+        return res.data;
+    },
+    error => {
+        return Promise.reject(error)
+    }
+)
 
-
-// 响应拦截
-service.interceptors.response.use( resp => {
-    loadingInstance.close()
-    return resp.data
-}, error => {
-    ElMessage({
-        message: error,
-        type: 'error',
-        duration: 3*1000
-    })
-    loadingInstance.close()
-    return Promise.reject(error)
-})

@@ -37,16 +37,28 @@
                     <template #label>
                         <span slot="label"><i class="iconfont icon-fenlei" title="标签云"></i></span>
                     </template>
+                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.categoryList">
+                        <i class="el-icon-huo">100</i>
+                        13456465
+                    </router-link>
                 </el-tab-pane>
                 <el-tab-pane name="el1">
                     <template #label>
                         <span slot="label"><i class="iconfont icon-redu" title="热度排行"></i></span>
                     </template>
+                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.articleHeatList">
+                        <i class="el-icon-huo">100</i>
+                        13456465
+                    </router-link>
                 </el-tab-pane>
                 <el-tab-pane name="el2">
                     <template #label>
                         <span slot="label"><i class="iconfont icon-pinglun" title="最新评论"></i></span>
                     </template>
+                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.commentHeatList">
+                        <i class="el-icon-huo">100</i>
+                        13456465
+                    </router-link>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -67,9 +79,13 @@
     import {reactive,ref,toRefs} from 'vue'
     export default {
         name: "LeftMenu",
-        setup(){
-            let isMove = ref(false);
+        props:{
+          leftData:Object
+        },
+        setup(props, context){
+            let isMove = ref(true)
             let isHide= ref(false)
+
             return {
                 isMove,isHide
             }
@@ -317,7 +333,7 @@
         z-index: 9999;
         position: absolute;
         display: flex;
-        background: #000000;
+        background: @mainColor;
         width: 10vw;
         line-height: 10vw;
         min-height: 10vw;
@@ -425,6 +441,14 @@
         100%{
             transform: rotate(360deg);
         }
+    }
+
+    .leftRow {
+        display: block;
+        padding: 1vh 1vw;
+        color: black;
+        font-size: 2vh;
+        border-bottom: 1px solid black;
     }
 
 </style>

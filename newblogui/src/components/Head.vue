@@ -119,6 +119,7 @@
                                transform: rotateY(0);
                        }
                         .back{
+                                backface-visibility: hidden;
                                 transform: rotateY(180deg);
                                 a {
                                         z-index: 999;

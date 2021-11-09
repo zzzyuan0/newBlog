@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.zzzyuan</groupId>
+    <artifactId>newblogApi</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>newblog-blog</module>
+        <module>newblog-user</module>
+        <module>newblog-forum</module>
+        <module>newblog-gateway</module>
+        <module>newblog-three-server</module>
+        <module>newblog-common</module>
+        <module>newblog-auth</module>
+    </modules>
+
+
+</project>

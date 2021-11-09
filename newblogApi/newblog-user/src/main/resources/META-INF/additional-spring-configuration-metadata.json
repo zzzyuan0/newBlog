@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "oauth.grant_type",
+      "type": "java.lang.String",
+      "description": "Description for oauth.grant_type."
+    },
+    {
+      "name": "oauth.client_id",
+      "type": "java.lang.String",
+      "description": "Description for oauth.client_id."
+    },
+    {
+      "name": "oauth.client_secret",
+      "type": "java.lang.String",
+      "description": "Description for oauth.client_secret."
+    },
+    {
+      "name": "oauth.scope",
+      "type": "java.lang.String",
+      "description": "Description for oauth.scope."
+    },
+    {
+      "name": "oauth.url",
+      "type": "java.lang.String",
+      "description": "Description for oauth.url."
+    },
+    {
+      "name": "allowUrl",
+      "type": "java.lang.String",
+      "description": "Description for allowUrl."
+    }
+  ] }

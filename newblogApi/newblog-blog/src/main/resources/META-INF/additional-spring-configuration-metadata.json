@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "blog.thread.keepAliveTime",
+      "type": "java.lang.Integer",
+      "description": "Description for blog.thread.keepAliveTime."
+    },
+    {
+      "name": "blog.thread.coreSize",
+      "type": "java.lang.Integer",
+      "description": "Description for blog.thread.coreSize."
+    },
+    {
+      "name": "blog.thread.maxSize",
+      "type": "java.lang.Integer",
+      "description": "Description for blog.thread.maxSize."
+    }
+  ] }

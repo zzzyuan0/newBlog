@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: newblog-auth
+
+
+
+server:
+  port: 8882
+  servlet:
+    context-path: /auth
+
+auth:
+  clientId: newblog
+  clientPassWd: userPassWd

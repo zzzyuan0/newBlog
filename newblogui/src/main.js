@@ -13,7 +13,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 // 引入axios配置
-import {service} from './conf/axiosConf'
+import  './conf/axiosConf'
 
 // 引入iconfont
 import './assets/less/index.less'
@@ -31,6 +31,5 @@ app.use(ElementPlus)
 app.use(VueAxios, axios)
 app.use(MdEditor)
 
-app.config.globalProperties.$axios = service
 
 app.mount('#app')

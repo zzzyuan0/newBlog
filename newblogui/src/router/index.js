@@ -8,32 +8,30 @@ const routes = [
     component: loadView("Index")
   }, {
     path: '/article',
-    name: 'Article',
-    component: loadView("Article/Article")
+    name: 'article',
+    component: loadView("article/Article")
   }, {
     path: '/search',
     name: 'Search',
-    component: loadView("Search/Search")
+    component: loadView("search/Search")
   }, {
     path: '/friendLink',
     name: 'FriendLink',
-    component: loadView("FriendLink/FriendLink")
+    component: loadView("friendLink/FriendLink")
   }, {
     path: '/forum/post',//以“/”开头的嵌套路径会被当作根路径，所以子路由上不用加“/”;在生成路由时，主路由上的path会被自动添加到子路由之前，所以子路由上的path不用在重新声明主路由上的path了。
     name: 'Post',
-    component: loadView("Forum/Post")
+    component: loadView("forum/Post")
   },{
     path: '/forum',
     name: 'Forum',
-    component: loadView("Forum/Forum"),
-    children: [
-      // {
-      //   // path: 'post',//以“/”开头的嵌套路径会被当作根路径，所以子路由上不用加“/”;在生成路由时，主路由上的path会被自动添加到子路由之前，所以子路由上的path不用在重新声明主路由上的path了。
-      //   // name: 'Post',
-      //   // component: loadView("Forum/Post")
-      // }
-    ]
+    component: loadView("forum/Forum")
+  },{
+    path: '/login',
+    name: 'Login',
+    component: loadView("common/Login")
   }
+
 ]
 
 const router = createRouter({

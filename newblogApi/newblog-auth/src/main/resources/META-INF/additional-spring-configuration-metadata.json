@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "auth.client-pass-wd",
+      "type": "java.lang.String",
+      "description": "Description for auth.client-pass-wd."
+    },
+    {
+      "name": "auth.client-id",
+      "type": "java.lang.String",
+      "description": "Description for auth.client-id."
+    }
+  ] }

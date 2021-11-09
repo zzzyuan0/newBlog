@@ -1,0 +1,25 @@
+server:
+  port: 8884
+  servlet:
+    context-path: /three
+
+
+# 邮箱发送配置
+spring:
+  application:
+    name: newblog-three-server
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    username: 1537069101@qq.com
+    password: ireixorvrquxbacd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  redis:
+    port: 6379
+    host: localhost

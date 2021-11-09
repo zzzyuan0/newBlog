@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://119.91.255.208:3306/newblog_forum?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  application:
+    name: newblog-forum
+
+server:
+  port: 8883

@@ -1,13 +1,3 @@
-export function getConfigsByProductId(productId) {
-    return this.service({
-        url: '/manager/getConfigsByProductId',
-        params: { productId: productId }
-    })
-}
+import {get,post} from "./http"
 
-export function getAllAndroidPlugins() {
-    return this.service({
-        url: '/manager/getAndroidPlugin ',
-        method: 'get'
-    })
-}
+export const getIndexApi = () => get("/blog/index/")

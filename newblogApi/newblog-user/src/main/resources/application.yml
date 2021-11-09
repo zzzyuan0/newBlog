@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:mysql://119.91.255.208:3306/new_user?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      read-only: false
+  application:
+    name: newblog-user
+server:
+  port: 8885
+  servlet:
+    context-path: /user
+#logging:
+#  level:
+#   root: debug
+oauth:
+  grant_type: password
+  client_id: newblog
+  client_secret: userPassWd
+  scope: all
+  url: http://localhost:8880/api/auth/oauth/token
+  check_url:  http://localhost:8880/api/auth/oauth/check_token
+
+
+allowUrl: /info/login,/comment/get,/info/register,/info/getUser/**,/comment/heat-list
