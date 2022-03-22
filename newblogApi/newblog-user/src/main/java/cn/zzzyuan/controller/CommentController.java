@@ -3,22 +3,18 @@ package cn.zzzyuan.controller;
 
 import cn.hutool.core.map.MapUtil;
 import cn.zzzyuan.entity.Comment;
-import cn.zzzyuan.entity.CommentTree;
 import cn.zzzyuan.entity.Info;
-import cn.zzzyuan.entity.ResponseResult;
+import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.service.CommentService;
 import cn.zzzyuan.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -65,7 +61,7 @@ public class CommentController {
         List<Map<String,Object>> mapList = new ArrayList<>();
         for (Comment comment : comments) {
             mapList.add(MapUtil.builder(new HashMap<String,Object>(2))
-                    .put("comment", comment).put("info",infos ).build());
+                    .put("comment", comment).put("info",infos.size() != 0 ? infos.get(0) : new Info() ).build());
         }
 
         return ResponseResult.success(mapList);

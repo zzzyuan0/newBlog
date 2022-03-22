@@ -1,9 +1,7 @@
 package cn.zzzyuan.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.json.JSONUtil;
-import cn.zzzyuan.entity.Token;
+import cn.zzzyuan.common.entity.Token;
 import cn.zzzyuan.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
 
 /**
  * @author codesuperman@foxmail.com

@@ -1,6 +1,5 @@
 package cn.zzzyuan.service;
 
-import cn.zzzyuan.entity.ArticleCategoryRel;
 import cn.zzzyuan.entity.ImgUrl;
 import com.baomidou.mybatisplus.extension.service.IService;
 

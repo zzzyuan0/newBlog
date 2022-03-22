@@ -2,7 +2,7 @@
     <router-view></router-view>
 </template>
 
-<style>
+<style lang="less">
   *{
     margin: 0;
     padding: 0;
@@ -13,6 +13,12 @@
     font-size: 40%;
     height: 100%;
     z-index: -1;
+  }
+  body{
+      background-image: url(@childBackGround);
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-attachment: fixed;
   }
   #app{
     top:0;

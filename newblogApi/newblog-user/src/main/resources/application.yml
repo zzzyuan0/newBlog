@@ -15,6 +15,11 @@ spring:
       read-only: false
   application:
     name: newblog-user
+  rabbitmq:
+    port: 5672
+    addresses: 119.91.255.208
+    password: guest
+    username: guest
 server:
   port: 8885
   servlet:
@@ -32,3 +37,11 @@ oauth:
 
 
 allowUrl: /info/login,/comment/get,/info/register,/info/getUser/**,/comment/heat-list
+
+mq:
+  config:
+    exchange:
+      log: log.direct
+    queue:
+      routing-key:
+        log: log_queue

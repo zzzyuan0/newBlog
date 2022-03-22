@@ -137,13 +137,7 @@
     }
 </script>
 <style lang="less">
-    body{
 
-        background-image: url(@childBackGround);
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-attachment: fixed;
-    }
 </style>
 <style lang="less" scoped>
 

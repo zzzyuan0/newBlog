@@ -1,6 +1,6 @@
 package cn.zzzyuan.feign;
 
-import cn.zzzyuan.entity.ResponseResult;
+import cn.zzzyuan.common.entity.ResponseResult;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;

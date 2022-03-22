@@ -1,24 +1,19 @@
 package cn.zzzyuan.controller;
 
 
-import cn.hutool.core.map.MapBuilder;
-import cn.hutool.core.map.MapUtil;
 import cn.zzzyuan.entity.Article;
-import cn.zzzyuan.entity.Category;
-import cn.zzzyuan.entity.ImgUrl;
-import cn.zzzyuan.entity.ResponseResult;
+import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.feign.UserFeign;
 import cn.zzzyuan.service.ArticleService;
 import cn.zzzyuan.service.CategoryService;
 import cn.zzzyuan.service.ImgUrlService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -66,32 +61,53 @@ public class IndexController {
             stringObjectHashMap.put("imgList", imgUrlService.getRandomImg(5));
         }, threadPoolExecutor);
 
-//        获取文章热度排行
-        CompletableFuture<Void> articleHeatList = CompletableFuture.runAsync(() -> {
-             stringObjectHashMap.put("articleHeatList", articleService.list(new QueryWrapper<Article>().orderByAsc("heat")
-                    .select("title", "heat").last("limit 0,10")));
-        }, threadPoolExecutor);
-
 
 //        最新获取文章
         CompletableFuture<Void> articleList = CompletableFuture.runAsync(() -> {
-              stringObjectHashMap.put("articleList", articleService.getNewArticle(10) );
+            Page<Article> articlePage = articleService.page(new Page<Article>(0, 6),
+                    new QueryWrapper<Article>().orderByDesc("create_time"));
+            stringObjectHashMap.put("articleList", articlePage.getRecords());
+            stringObjectHashMap.put("currentPage", articlePage.getCurrent());
+            stringObjectHashMap.put("total", articlePage.getTotal());
         }, threadPoolExecutor);
 
-//        获取评论
-        CompletableFuture<Void> commentHeatList = CompletableFuture.runAsync(() -> {
-             stringObjectHashMap.put("commentHeatList", userFeign.getCommentHeatList(10) );
-        }, threadPoolExecutor);
 
-//        获取标签云
-        CompletableFuture<Void> categoryList = CompletableFuture.runAsync(() -> {
-             stringObjectHashMap.put("categoryList", categoryService.getAllCategory() );
-        }, threadPoolExecutor);
-
-        CompletableFuture.allOf(randomImg,articleHeatList,articleList,commentHeatList,categoryList).get();
+        CompletableFuture.allOf(randomImg,articleList).get();
 
         return ResponseResult.success(stringObjectHashMap);
 
     }
+
+    @GetMapping("/ext")
+    public ResponseResult getIndexExt() throws ExecutionException, InterruptedException {
+
+        HashMap<String, Object> stringObjectHashMap = new HashMap<>(5);
+
+
+//        获取文章热度排行
+        CompletableFuture<Void> articleHeatList = CompletableFuture.runAsync(() -> {
+            stringObjectHashMap.put("articleHeatList", articleService.list(new QueryWrapper<Article>().orderByAsc("heat")
+                    .select("title", "heat").last("limit 0,10")));
+        }, threadPoolExecutor);
+
+
+//        获取评论
+        CompletableFuture<Void> commentHeatList = CompletableFuture.runAsync(() -> {
+            stringObjectHashMap.put("commentHeatList", userFeign.getCommentHeatList(10).getData() );
+        }, threadPoolExecutor);
+
+//        获取标签云
+        CompletableFuture<Void> categoryList = CompletableFuture.runAsync(() -> {
+            stringObjectHashMap.put("categoryList", categoryService.getAllCategory() );
+        }, threadPoolExecutor);
+
+        CompletableFuture.allOf(articleHeatList,commentHeatList,categoryList).get();
+
+        return ResponseResult.success(stringObjectHashMap);
+
+    }
+
+
+
 
 }

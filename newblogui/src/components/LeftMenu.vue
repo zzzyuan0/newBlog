@@ -1,93 +1,107 @@
 <template>
-<div id="leftMenu">
-    <div id="mainPanel" :class="{mainPanel_move:!isMove}">
-        <div id="title">杂货店的阿猿</div>
-        <div id="avatarPanel">
-            <div id="mybackgroud"></div>
-            <div id="avatars">
-                <el-avatar  id="avatar" :src="require('@/assets/img/avater.png')"></el-avatar>
-                <div id="avatarBack" >
-                    <div id="backChild">
-                        <div></div>
+    <div id="leftMenu">
+        <div id="mainPanel" :class="{mainPanel_move:!isMove}">
+            <div id="title">杂货店的阿猿</div>
+            <div id="avatarPanel">
+                <div id="mybackgroud"></div>
+                <div id="avatars">
+                    <el-avatar  id="avatar" :src="require('@/assets/img/avater.png')"></el-avatar>
+                    <div id="avatarBack" >
+                        <div id="backChild">
+                            <div></div>
+                        </div>
                     </div>
+
+                    <div id="account">
+                        <a><i class="iconfont icon-youxiang" title="邮箱"></i></a>
+                        <a><i class="iconfont icon-csdn" title="CSDN"></i></a>
+                        <a><i class="iconfont icon-github" title="github"></i></a>
+                    </div>
+
                 </div>
 
-                <div id="account">
-                    <a><i class="iconfont icon-youxiang" title="邮箱"></i></a>
-                    <a><i class="iconfont icon-csdn" title="CSDN"></i></a>
-                    <a><i class="iconfont icon-github" title="github"></i></a>
+                <div id="sunDiv">
+                    <svg class="icon" id="sun" aria-hidden="true">
+                        <use xlink:href="#icon-Taiyang"></use>
+                    </svg>
                 </div>
-
+                <div id="monDiv">
+                    <svg class="icon" id="mon" aria-hidden="true">
+                        <use xlink:href="#icon-wanqingtian"></use>
+                    </svg>
+                </div>
             </div>
-
-            <div id="sunDiv">
-                <svg class="icon" id="sun" aria-hidden="true">
-                    <use xlink:href="#icon-Taiyang"></use>
-                </svg>
-            </div>
-            <div id="monDiv">
-                <svg class="icon" id="mon" aria-hidden="true">
-                    <use xlink:href="#icon-wanqingtian"></use>
-                </svg>
+            <div id="menu">
+                <el-tabs type="border-card" v-model="activeTab">
+                    <el-tab-pane name="el0" class="panel">
+                        <template #label>
+                            <span slot="label"><i class="iconfont icon-fenlei" title="标签云"></i></span>
+                        </template>
+                        <router-link class="category" :to="{name:'Login'}" v-for="(item,index) in leftData.categoryList">
+                            <span >{{item.name}}</span>
+                        </router-link>
+                    </el-tab-pane>
+                    <el-tab-pane name="el1" class="panel">
+                        <template #label>
+                            <span slot="label"><i class="iconfont icon-redu" title="热度排行"></i></span>
+                        </template>
+                        <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.articleHeatList">
+                            <i class="el-icon-huo">{{item.heat}}</i>
+                            {{item.title}}
+                        </router-link>
+                    </el-tab-pane>
+                    <el-tab-pane name="el2" class="panel">
+                        <template #label>
+                            <span slot="label"><i class="iconfont icon-pinglun" title="最新评论"></i></span>
+                        </template>
+                        <router-link  class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.commentHeatList">
+                            <div class="comment">
+                                <div class="avatar">
+                                    <el-avatar :src="item.info.avatar"></el-avatar>
+                                </div>
+                                <div class="mainComment">
+                                    <div class="name">{{item.info.name}}</div>
+                                    <div class="content">{{item.comment.content}}</div>
+                                </div>
+                            </div>
+                        </router-link>
+                    </el-tab-pane>
+                </el-tabs>
             </div>
         </div>
-        <div id="menu">
-            <el-tabs type="border-card">
-                <el-tab-pane name="el0">
-                    <template #label>
-                        <span slot="label"><i class="iconfont icon-fenlei" title="标签云"></i></span>
-                    </template>
-                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.categoryList">
-                        <i class="el-icon-huo">100</i>
-                        13456465
-                    </router-link>
-                </el-tab-pane>
-                <el-tab-pane name="el1">
-                    <template #label>
-                        <span slot="label"><i class="iconfont icon-redu" title="热度排行"></i></span>
-                    </template>
-                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.articleHeatList">
-                        <i class="el-icon-huo">100</i>
-                        13456465
-                    </router-link>
-                </el-tab-pane>
-                <el-tab-pane name="el2">
-                    <template #label>
-                        <span slot="label"><i class="iconfont icon-pinglun" title="最新评论"></i></span>
-                    </template>
-                    <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.commentHeatList">
-                        <i class="el-icon-huo">100</i>
-                        13456465
-                    </router-link>
-                </el-tab-pane>
-            </el-tabs>
+        <div id="leftMenuBtn"  :class="{move:isMove}" >
+            <div v-show="!isMove" id="right" class="iconfont icon-right" @click="isMove = true">
+            </div>
+            <div id="left" v-show="isMove" >
+                <i id="leftIcon" class="iconfont icon-right" @click="isMove = false"></i>
+            </div>
         </div>
     </div>
-    <div id="leftMenuBtn"  :class="{move:isMove}" >
-        <div v-show="!isMove" id="right" class="iconfont icon-right" @click="isMove = true">
-        </div>
-        <div id="left" v-show="isMove" >
-            <i id="leftIcon" class="iconfont icon-right" @click="isMove = false"></i>
-        </div>
-    </div>
-</div>
 
 
 </template>
 
 <script>
     import {reactive,ref,toRefs} from 'vue'
+    import {getIndexExtApi} from "../api";
+
     export default {
         name: "LeftMenu",
-        props:{
-          leftData:Object
-        },
         setup(props, context){
             let isMove = ref(true)
             let isHide= ref(false)
 
+            let leftData = reactive({})
+            getIndexExtApi().then(res => {
+                leftData.categoryList = res.categoryList
+                leftData.articleHeatList = res.articleHeatList
+                leftData.commentHeatList = res.commentHeatList
+                console.log(leftData.commentHeatList )
+            })
+
+            let activeTab = ref("el0")
             return {
-                isMove,isHide
+                isMove,isHide,leftData,activeTab
             }
         }
     }
@@ -312,6 +326,10 @@
         }
 
         #menu{
+            a {
+                text-decoration: none;
+            }
+
             .icon-pinglun,.icon-redu,.icon-fenlei{
                 font-size: 2vw;
                 color: #4a3a90;
@@ -322,7 +340,72 @@
                     color: #1e1058;
                 }
             }
+
+            .leftRow {
+                display: block;
+                padding: 1vh 1vw;
+                color: black;
+                font-size: 2vh;
+                border-bottom: 1px solid black;
+            }
+
+            .category {
+                min-width: 5px;
+                min-height: 5px;
+                padding: 0.5vh 1vw;
+                margin: 1vw 1vh;
+                text-decoration: none;
+                color: white;
+                background: #3f51b1;
+                border-radius: 15px;
+                display: inline-block;
+            }
+
+            .panel{
+                overflow-y: auto;
+                height: 40vh;
+            }
+
+            .comment{
+                display: flex;
+                .name {
+                    font-weight: bold;
+                    text-align: center;
+                    border-bottom: #101010 1px solid;
+                }
+                .content{
+                    padding: 5px;
+                }
+                .mainComment {
+                    width: 100%;
+                }
+            }
+
         }
+
+        ::-webkit-scrollbar
+        {
+            width:10px;
+            height:16px;
+            background-color: transparent;
+        }
+        /*定义滚动条轨道
+         内阴影+圆角*/
+        ::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow:inset 0 0 0;
+            border-radius:10px;
+            background-color: transparent;
+        }
+        /*定义滑块
+         内阴影+圆角*/
+        ::-webkit-scrollbar-thumb
+        {
+            border-radius:7px;
+            -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #ffffff30;
+        }
+
     }
 
     .mainPanel_move{
@@ -443,12 +526,6 @@
         }
     }
 
-    .leftRow {
-        display: block;
-        padding: 1vh 1vw;
-        color: black;
-        font-size: 2vh;
-        border-bottom: 1px solid black;
-    }
+
 
 </style>

@@ -1,10 +1,11 @@
 package cn.zzzyuan.service.impl;
 
 import cn.zzzyuan.entity.Article;
+import cn.zzzyuan.entity.Category;
 import cn.zzzyuan.mapper.ArticleMapper;
 import cn.zzzyuan.service.ArticleService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,9 +33,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     @Cacheable(value = "newArticle")
-    public List<Article> getNewArticle(Integer num) {
+    public IPage<Article> getArticleByTagPage(IPage<Article> page, QueryWrapper<Category> wrapper) {
         log.info("获取newArticle===================");
-        return list(new QueryWrapper<Article>().orderByAsc("create_time")
-                .last("limit 0," + num));
+        return baseMapper.getBlogByTagIPage(page,wrapper);
     }
+
 }

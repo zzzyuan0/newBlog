@@ -1,21 +1,17 @@
-package cn.zzzyuan.threeServer.controller;
+package cn.zzzyuan.three.controller;
 
 import cn.hutool.core.date.DateUnit;
 import cn.zzzyuan.common.content.CaptchaContent;
 import cn.zzzyuan.common.content.ResponseContent;
-import cn.zzzyuan.entity.ResponseResult;
-import cn.zzzyuan.threeServer.service.smsService.SmsService;
-import cn.zzzyuan.threeServer.util.RandomCaptcha;
+import cn.zzzyuan.common.entity.ResponseResult;
+import cn.zzzyuan.three.service.smsService.SmsService;
+import cn.zzzyuan.three.util.RandomCaptcha;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.krb5.internal.ccache.CCacheInputStream;
 
 import javax.validation.constraints.NotBlank;
 import java.util.concurrent.TimeUnit;

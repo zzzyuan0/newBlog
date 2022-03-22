@@ -26,12 +26,12 @@
                 </div>
                 <router-link to="/article">
                     <div v-if="imgPath.length != 0" class="article" :style="{backgroundImage: 'url(' + imgPath[index].imgUrl + ')'}" v-for="(art,index) in showArticlesArr" :id="index" :ref="'art' + index">
-                        {{art.id + art.title}}
+                        <p class="title">{{art.title}}</p>
                     </div>
                 </router-link>
             </div>
         </div>
-        <left-menu v-if="leftData.isShow" id="leftMenu" :leftData="leftData"></left-menu>
+        <left-menu id="leftMenu"></left-menu>
         <right-menu id="rightMenu" ref="rightMenu"></right-menu>
         <Music></Music>
         <div id="foot">
@@ -66,16 +66,12 @@ export default {
 
       let imgPath = reactive([])
 
-      let leftData = reactive({isShow:false})
+
       getIndexApi().then(res => {
           articles = reactive( res.articleList)
           showArticlesArr.push(articles[0])
           // 响应式赋值
           Object.assign(imgPath,res.imgList)
-          leftData.categoryList = res.categoryList
-          leftData.articleHeatList = res.articleHeatList
-          leftData.commentHeatList = res.commentHeatList
-          leftData.isShow = true
       })
 
 
@@ -97,7 +93,7 @@ export default {
       let listenMethod = ()=>{}
 
       return {
-          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod,imgPath,leftData
+          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod,imgPath
       }
   },mounted() {
         this.listenMethod = setInterval(()=>{
@@ -109,7 +105,9 @@ export default {
     }
 }
 </script>
+<style lang="less">
 
+</style>
 <style lang="less" scoped>
     /*@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Stick+No+Bills&display=swap');*/
     #index{

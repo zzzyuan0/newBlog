@@ -1,5 +1,6 @@
 package cn.zzzyuan.feign;
 
+import cn.zzzyuan.common.entity.ResponseResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,6 @@ public interface UserFeign {
      * @return
      */
     @GetMapping("/info/getUser/{username}")
-    public String getPasswordByUsername(@NotNull @PathVariable("username") String username);
+    public ResponseResult getPasswordByUsername(@NotNull @PathVariable("username") String username);
 
 }

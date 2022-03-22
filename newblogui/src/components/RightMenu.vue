@@ -73,7 +73,7 @@
 
         a{
             text-decoration: none;
-            color: #101010;
+            color: rgba(255, 255, 255, 0);
         }
 
         div{

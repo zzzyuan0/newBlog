@@ -3,8 +3,6 @@ package cn.zzzyuan.service.impl;
 import cn.zzzyuan.entity.Category;
 import cn.zzzyuan.mapper.CategoryMapper;
 import cn.zzzyuan.service.CategoryService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;

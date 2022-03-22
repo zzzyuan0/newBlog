@@ -3,14 +3,12 @@ package cn.zzzyuan.service.impl;
 import cn.zzzyuan.entity.CommentTree;
 import cn.zzzyuan.entity.Info;
 import cn.zzzyuan.mapper.CommentMapper;
-import cn.zzzyuan.mapper.InfoMapper;
 import cn.zzzyuan.service.CommentService;
 import cn.zzzyuan.entity.Comment;
 import cn.zzzyuan.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

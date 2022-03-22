@@ -1,7 +1,7 @@
-package cn.zzzyuan.threeServer;
+package cn.zzzyuan.three;
 
-import cn.zzzyuan.threeServer.service.smsService.SmsService;
-import cn.zzzyuan.threeServer.util.RandomCaptcha;
+import cn.zzzyuan.three.service.smsService.SmsService;
+import cn.zzzyuan.three.util.RandomCaptcha;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

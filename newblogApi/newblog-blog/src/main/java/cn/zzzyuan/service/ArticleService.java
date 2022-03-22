@@ -1,6 +1,9 @@
 package cn.zzzyuan.service;
 
 import cn.zzzyuan.entity.Article;
+import cn.zzzyuan.entity.Category;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -17,6 +20,6 @@ public interface ArticleService extends IService<Article> {
 
     List<Article> getArticleHeat(Integer num);
 
-    List<Article> getNewArticle(Integer num);
+    IPage<Article> getArticleByTagPage(IPage<Article> page, QueryWrapper<Category> wrapper);
 
 }

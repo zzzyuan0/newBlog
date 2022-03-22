@@ -1,13 +1,21 @@
 <template>
+    <div id="comment">
 
+    </div>
 </template>
 
 <script>
     export default {
-        name: ""
+        name: "Comment"
     }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+    #comment {
+        width: 20vw;
+        height: 20vh;
+        background: white;
+        margin: 0 auto;
+    }
 
 </style>

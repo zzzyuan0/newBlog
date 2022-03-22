@@ -1,4 +1,4 @@
-package cn.zzzyuan.threeServer.service.smsService;
+package cn.zzzyuan.three.service.smsService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

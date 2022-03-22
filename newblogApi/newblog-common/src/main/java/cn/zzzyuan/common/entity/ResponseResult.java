@@ -1,4 +1,4 @@
-package cn.zzzyuan.entity;
+package cn.zzzyuan.common.entity;
 
 import cn.zzzyuan.common.content.ResponseContent;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package cn.zzzyuan.service;
 
-import cn.zzzyuan.entity.Token;
+import cn.zzzyuan.common.entity.Token;
 
 /**
  * @author codesuperman@foxmail.com

@@ -3,13 +3,12 @@ package cn.zzzyuan.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.json.JSONUtil;
-import cn.hutool.system.UserInfo;
+import cn.zzzyuan.common.annotation.OperateLog;
 import cn.zzzyuan.common.content.CaptchaContent;
-import cn.zzzyuan.entity.Ext;
+import cn.zzzyuan.common.content.LogOperateTypeContent;
 import cn.zzzyuan.entity.Info;
-import cn.zzzyuan.entity.ResponseResult;
-import cn.zzzyuan.entity.Token;
+import cn.zzzyuan.common.entity.ResponseResult;
+import cn.zzzyuan.common.entity.Token;
 import cn.zzzyuan.entity.dto.RegisterDTO;
 import cn.zzzyuan.service.ExtService;
 import cn.zzzyuan.service.InfoService;
@@ -55,13 +54,15 @@ public class InfoController {
     private final StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/getUser/{username}")
-    public String getPasswordByUsername(@NotNull @PathVariable("username") String username) {
+    @OperateLog(module = "${spring.application.name}", type = LogOperateTypeContent.LOG_TYPE_GET, desc = "获取用户加密密码进行验证",paramDesc = "用户名",paramType = "String")
+    public ResponseResult getPasswordByUsername(@NotNull @PathVariable("username") String username) {
         log.info("========获取用户{}信息======",username);
-        Info info = infoService.getOne(new QueryWrapper<Info>().eq("email", username));
+        Info info = infoService.getOne(new QueryWrapper<Info>().select("password").eq("email", username));
         if(ObjectUtils.isNotEmpty(info)){
-            return info.getPassword();
+            return ResponseResult.success(info.getPassword());
         }
-        return "";
+
+        return ResponseResult.error(null);
     }
 
     @PostMapping("/login")

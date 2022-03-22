@@ -1,4 +1,4 @@
-package cn.zzzyuan.threeServer.util;
+package cn.zzzyuan.three.util;
 
 import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.RandomUtil;

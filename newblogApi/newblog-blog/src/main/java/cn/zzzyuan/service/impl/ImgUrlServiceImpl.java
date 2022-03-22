@@ -1,19 +1,13 @@
 package cn.zzzyuan.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
-import cn.zzzyuan.entity.FriendLink;
 import cn.zzzyuan.entity.ImgUrl;
-import cn.zzzyuan.mapper.FriendLinkMapper;
 import cn.zzzyuan.mapper.ImgUrlMapper;
 import cn.zzzyuan.service.ImgUrlService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * @author codesuperman@foxmail.com

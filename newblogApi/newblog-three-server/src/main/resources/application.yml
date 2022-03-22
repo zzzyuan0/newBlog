@@ -3,11 +3,24 @@ server:
   servlet:
     context-path: /three
 
-
 # 邮箱发送配置
 spring:
   application:
     name: newblog-three-server
+  datasource:
+    url: jdbc:mysql://119.91.255.208:3306/new_common?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      read-only: false
   mail:
     default-encoding: UTF-8
     host: smtp.qq.com
@@ -23,3 +36,18 @@ spring:
   redis:
     port: 6379
     host: localhost
+  rabbitmq:
+    host: 119.91.255.208
+    username: guest
+    password: guest
+    port: 5672
+
+mq:
+  config:
+    exchange:
+      email: email.direct
+      log: log.direct
+    queue:
+      routing-key:
+        email: emial_queue
+        log: log_queue
