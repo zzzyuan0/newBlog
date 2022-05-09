@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 文档 前端控制器
  * </p>
  *
- * @author 杂货店的阿猿
- * @since 2022-02-26
+ * @author 
+ * @since 2022-04-13
  */
 @RestController
-@RequestMapping("/log-record")
-public class LogRecordController {
+@RequestMapping("/doc")
+public class DocController {
 
 }
