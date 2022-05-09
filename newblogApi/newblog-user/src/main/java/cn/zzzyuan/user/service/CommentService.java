@@ -1,7 +1,7 @@
-package cn.zzzyuan.service;
+package cn.zzzyuan.user.service;
 
-import cn.zzzyuan.entity.Comment;
-import cn.zzzyuan.entity.CommentTree;
+import cn.zzzyuan.user.entity.Comment;
+import cn.zzzyuan.user.entity.CommentTree;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

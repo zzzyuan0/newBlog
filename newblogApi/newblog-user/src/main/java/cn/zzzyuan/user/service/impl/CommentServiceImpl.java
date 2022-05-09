@@ -1,11 +1,11 @@
-package cn.zzzyuan.service.impl;
+package cn.zzzyuan.user.service.impl;
 
-import cn.zzzyuan.entity.CommentTree;
-import cn.zzzyuan.entity.Info;
-import cn.zzzyuan.mapper.CommentMapper;
-import cn.zzzyuan.service.CommentService;
-import cn.zzzyuan.entity.Comment;
-import cn.zzzyuan.service.InfoService;
+import cn.zzzyuan.user.entity.CommentTree;
+import cn.zzzyuan.user.entity.Info;
+import cn.zzzyuan.user.mapper.CommentMapper;
+import cn.zzzyuan.user.service.CommentService;
+import cn.zzzyuan.user.entity.Comment;
+import cn.zzzyuan.user.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;

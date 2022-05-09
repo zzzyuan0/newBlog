@@ -1,5 +1,7 @@
-package cn.zzzyuan.entity;
+package cn.zzzyuan.user.entity;
 
+import cn.zzzyuan.user.entity.Comment;
+import cn.zzzyuan.user.entity.Info;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
