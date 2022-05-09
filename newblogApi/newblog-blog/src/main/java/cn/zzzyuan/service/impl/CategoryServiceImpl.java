@@ -3,11 +3,16 @@ package cn.zzzyuan.service.impl;
 import cn.zzzyuan.entity.Category;
 import cn.zzzyuan.mapper.CategoryMapper;
 import cn.zzzyuan.service.CategoryService;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.constraints.NotBlank;
+import javax.xml.transform.Result;
 import java.util.List;
 
 /**
@@ -29,4 +34,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         log.info("categoryList 获取=========================================");
         return list();
     }
+
+    @Override
+    @CacheEvict(value = "categoryList", allEntries = true)
+    public Boolean addCategory(Integer parentId, String name) {
+        return true;
+//        return update(new UpdateWrapper<Category>().set(, , ));
+    }
+
 }

@@ -1,12 +1,12 @@
-package cn.zzzyuan.controller;
+package cn.zzzyuan.user.controller;
 
 
 import cn.hutool.core.map.MapUtil;
-import cn.zzzyuan.entity.Comment;
-import cn.zzzyuan.entity.Info;
+import cn.zzzyuan.user.entity.Comment;
+import cn.zzzyuan.user.entity.Info;
 import cn.zzzyuan.common.entity.ResponseResult;
-import cn.zzzyuan.service.CommentService;
-import cn.zzzyuan.service.InfoService;
+import cn.zzzyuan.user.service.CommentService;
+import cn.zzzyuan.user.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

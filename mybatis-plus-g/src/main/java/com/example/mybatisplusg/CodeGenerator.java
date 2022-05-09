@@ -45,7 +45,7 @@ public class CodeGenerator {
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
 //        gc.setOutputDir("D:\\test");
-        gc.setAuthor("杂货店的阿猿");
+        gc.setAuthor("");
         gc.setOpen(false);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         gc.setServiceName("%sService");
@@ -53,7 +53,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://119.91.255.208:3306/new_common?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai");
+        dsc.setUrl("jdbc:mysql://119.91.255.208:3306/wiki?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
@@ -108,7 +108,7 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix("t_common_");
+        strategy.setTablePrefix("t_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

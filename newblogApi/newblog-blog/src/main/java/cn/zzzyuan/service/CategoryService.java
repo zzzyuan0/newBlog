@@ -3,6 +3,7 @@ package cn.zzzyuan.service;
 import cn.zzzyuan.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -16,5 +17,7 @@ import java.util.List;
 public interface CategoryService extends IService<Category> {
 
     List<Category> getAllCategory();
+
+    Boolean addCategory(Integer parentId, String name);
 
 }
