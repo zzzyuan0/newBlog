@@ -1,8 +1,8 @@
-package cn.zzzyuan.service.impl;
+package cn.zzzyuan.user.service.impl;
 
-import cn.zzzyuan.entity.BlackList;
-import cn.zzzyuan.mapper.BlackListMapper;
-import cn.zzzyuan.service.BlackListService;
+import cn.zzzyuan.user.entity.BlackList;
+import cn.zzzyuan.user.mapper.BlackListMapper;
+import cn.zzzyuan.user.service.BlackListService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
