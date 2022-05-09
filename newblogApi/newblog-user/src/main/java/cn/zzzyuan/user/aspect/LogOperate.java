@@ -1,4 +1,4 @@
-package cn.zzzyuan.aspect;
+package cn.zzzyuan.user.aspect;
 
 import cn.zzzyuan.common.aspect.LogOperateAspect;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -1,4 +1,4 @@
-package cn.zzzyuan.entity.dto;
+package cn.zzzyuan.user.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

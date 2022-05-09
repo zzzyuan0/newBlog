@@ -94,7 +94,7 @@ public class LogOperateAspect {
         String module = annotation.module();
         String paramDesc = annotation.paramDesc();
         String paramType = annotation.paramType();
-        int type = annotation.type();
+        int type = Integer.parseInt(annotation.type());
         LogRecord logRecord = LogRecord.builder()
                 .remark(desc).method(methodName)
                 .module(module).type(type)
