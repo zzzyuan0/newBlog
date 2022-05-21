@@ -1,4 +1,4 @@
-package cn.zzzyuan.entity;
+package cn.zzzyuan.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

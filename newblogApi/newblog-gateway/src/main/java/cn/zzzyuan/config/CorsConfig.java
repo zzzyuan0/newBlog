@@ -28,6 +28,5 @@ public class CorsConfig {
         // 配置所有url的跨域配置
         source.registerCorsConfiguration("/**", corsConfig);
         return new CorsWebFilter(source);
-
     }
 }

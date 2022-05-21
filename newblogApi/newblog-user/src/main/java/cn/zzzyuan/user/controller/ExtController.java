@@ -1,4 +1,4 @@
-package cn.zzzyuan.controller;
+package cn.zzzyuan.user.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

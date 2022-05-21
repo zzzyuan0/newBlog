@@ -1,6 +1,6 @@
-package cn.zzzyuan.service;
+package cn.zzzyuan.user.service;
 
-import cn.zzzyuan.entity.Ext;
+import cn.zzzyuan.user.entity.Ext;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
