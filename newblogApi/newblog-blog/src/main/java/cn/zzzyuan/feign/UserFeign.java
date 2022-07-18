@@ -24,7 +24,7 @@ public interface UserFeign {
      * @return
      */
     @GetMapping("/comment/heat-list")
-    @Cacheable(cacheNames = "commentHeatList")
+    @Cacheable(cacheNames = "'commentHeatList' + #num")
     ResponseResult getCommentHeatList(@RequestParam(name = "num") Integer num);
 
 }
