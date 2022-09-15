@@ -9,10 +9,13 @@ import cn.zzzyuan.service.CategoryService;
 import cn.zzzyuan.service.ImgUrlService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +31,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @RestController
 @RequestMapping("/index")
+@Slf4j
 public class IndexController {
 
     private final ImgUrlService imgUrlService;
@@ -108,6 +112,11 @@ public class IndexController {
     }
 
 
+    @GetMapping("/addCategory")
+    public ResponseResult addCategory(@RequestParam("parentId") Integer parentId, @RequestParam("name") @NotBlank String name)  {
+        log.info("{}================={}",parentId ,name);
+        return ResponseResult.success(categoryService.addCategory(parentId, name));
+    }
 
 
 }
