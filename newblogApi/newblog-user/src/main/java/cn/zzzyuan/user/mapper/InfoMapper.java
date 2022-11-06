@@ -1,6 +1,6 @@
-package cn.zzzyuan.mapper;
+package cn.zzzyuan.user.mapper;
 
-import cn.zzzyuan.entity.Info;
+import cn.zzzyuan.user.entity.Info;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
