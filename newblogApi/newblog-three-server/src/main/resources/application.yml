@@ -8,7 +8,7 @@ spring:
   application:
     name: newblog-three-server
   datasource:
-    url: jdbc:mysql://119.91.255.208:3306/new_common?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://116.205.187.238:3306/new_common?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: Password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -35,18 +35,17 @@ spring:
             required: true
   redis:
     port: 6379
-    host: localhost
+    host: 116.205.187.238
   rabbitmq:
-    host: 119.91.255.208
-    username: guest
-    password: guest
+    host: 116.205.187.238
+    username: root
+    password: Password
     port: 5672
 
 mq:
   config:
     exchange:
-      email: email.direct
-      log: log.direct
+      route: route.direct
     queue:
       routing-key:
         email: emial_queue

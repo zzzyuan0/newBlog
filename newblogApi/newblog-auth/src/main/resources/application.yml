@@ -1,9 +1,6 @@
 spring:
   application:
     name: newblog-auth
-
-
-
 server:
   port: 8882
   servlet:

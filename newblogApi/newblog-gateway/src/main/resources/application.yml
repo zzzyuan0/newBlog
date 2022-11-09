@@ -31,7 +31,7 @@ spring:
             - RewritePath=/api/?(?<segment>.*),/$\{segment}
 
   datasource:
-    url: jdbc:mysql://localhost:3306/newblog_user?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://116.205.187.238:3306/newblog_user?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: tl20010213
     driver-class-name: com.mysql.cj.jdbc.Driver
