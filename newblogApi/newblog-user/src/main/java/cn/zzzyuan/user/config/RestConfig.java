@@ -1,4 +1,4 @@
-package cn.zzzyuan.config;
+package cn.zzzyuan.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

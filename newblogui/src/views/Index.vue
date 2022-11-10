@@ -22,10 +22,12 @@
                             </div>
                         </div>
                     </router-link>
-
                 </div>
-                <router-link to="/article">
-                    <div v-if="imgPath.length != 0" class="article" :style="{backgroundImage: 'url(' + imgPath[index].imgUrl + ')'}" v-for="(art,index) in showArticlesArr" :id="index" :ref="'art' + index">
+                <router-link   v-for="(art,index) in showArticlesArr"  :to="`/article/${art.id}`"
+                               v-if="imgPath.length != 0" class="article"
+                               :style="{backgroundImage: 'url(' + imgPath[index].imgUrl + ')'}"
+                               :id="index" :ref="'art' + index" >
+                    <div>
                         <p class="title">{{art.title}}</p>
                     </div>
                 </router-link>
@@ -69,7 +71,7 @@ export default {
 
       getIndexApi().then(res => {
           articles = reactive( res.articleList)
-          showArticlesArr.push(articles[0])
+          Object.assign(showArticlesArr, articles)
           // 响应式赋值
           Object.assign(imgPath,res.imgList)
       })

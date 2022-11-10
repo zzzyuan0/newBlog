@@ -21,6 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(allowUrl.toArray(new String[allowUrl.size()]));
+        web.ignoring().antMatchers(allowUrl.toArray(new String[0]));
     }
 }

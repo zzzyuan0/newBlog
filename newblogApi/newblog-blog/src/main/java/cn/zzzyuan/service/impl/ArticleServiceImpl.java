@@ -1,6 +1,8 @@
 package cn.zzzyuan.service.impl;
 
+import cn.hutool.core.map.MapUtil;
 import cn.zzzyuan.entity.Article;
+import cn.zzzyuan.entity.ArticleCategoryRel;
 import cn.zzzyuan.entity.Category;
 import cn.zzzyuan.entity.dto.ArticleDTO;
 import cn.zzzyuan.mapper.ArticleMapper;
@@ -18,6 +20,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -34,11 +37,11 @@ import java.util.Set;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Value("${cache.key.ArticleHeatCacheKey}")
-    public String articleHeatCacheKey;
+    private String articleHeatCacheKey;
 
-    public final StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    public final Hashids hashids;
+    private final Hashids hashids;
 
     public ArticleServiceImpl(StringRedisTemplate redisTemplate, Hashids hashids) {
         this.redisTemplate = redisTemplate;
@@ -90,28 +93,36 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    @Cacheable(value = "newArticle")
-    public IPage<ArticleDTO> getArticleByTagPage(Integer page, Integer categoryId) {
-        log.info("获取newArticle===================");
-        QueryWrapper<Category> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", categoryId);
-        return null;
+    @Cacheable(cacheNames = "articleCache",key = "'ArticleByPageAndCategoryCache' + #categoryId + '$' + #page")
+    public HashMap<String, Object> getArticleByPageAndCategory(Integer page, Integer categoryId) {
+        IPage<Article> articlePage = baseMapper.getBlogByCategoryIpage(new Page<>(page, 6),
+                new QueryWrapper<ArticleCategoryRel>().eq("id", categoryId));
+        return pageToDtoPage(articlePage);
     }
 
     @Override
     @Cacheable(cacheNames = "articleCache", key = "'articleCache' + #page")
-    public List<ArticleDTO> getArticleHeatByPage(Integer page) {
+    public HashMap<String, Object> getArticleByPage(Integer page, HashMap<String, String> params) {
         Page<Article> articlePage = this.page(new Page<Article>(page, 6),
                 new QueryWrapper<Article>().select("id", "title")
+                        .allEq(params)
                         .orderByDesc("create_time"));
-        List<Article> records = articlePage.getRecords();
-        List<ArticleDTO> dtoArrayList = new ArrayList<>(records.size());
-        for (Article record : records) {
+        return pageToDtoPage(articlePage);
+    }
+
+    private HashMap<String, Object> pageToDtoPage(IPage<Article> iPage) {
+        List<Article> articles = iPage.getRecords();
+        List<ArticleDTO> dtoArrayList = new ArrayList<>(articles.size());
+        for (Article record : articles) {
             dtoArrayList.add(new ArticleDTO()
                     .setTitle(record.getTitle())
                     .setId(hashids.encode(record.getId())));
         }
-        return dtoArrayList;
+        HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+        stringObjectHashMap.put("articleList", dtoArrayList);
+        stringObjectHashMap.put("currentPage", iPage.getCurrent());
+        stringObjectHashMap.put("total", iPage.getTotal());
+        return stringObjectHashMap;
     }
 
 }

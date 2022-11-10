@@ -56,12 +56,14 @@ public class CommentController {
         for (Comment comment : comments) {
             users.add(comment.getUserId());
         }
-        List<Info> infos = infoService.list(new QueryWrapper<Info>().in("id", users)
-                .select("avatar","name"));
-        List<Map<String,Object>> mapList = new ArrayList<>();
-        for (Comment comment : comments) {
-            mapList.add(MapUtil.builder(new HashMap<String,Object>(2))
-                    .put("comment", comment).put("info",infos.size() != 0 ? infos.get(0) : new Info() ).build());
+        List<Map<String,Object>> mapList = new ArrayList<>(users.size());
+        if(users.size() != 0) {
+            List<Info> infos = infoService.list(new QueryWrapper<Info>().in("id", users)
+                    .select("avatar","name"));
+            for (Comment comment : comments) {
+                mapList.add(MapUtil.builder(new HashMap<String,Object>(2))
+                        .put("comment", comment).put("info",infos.size() != 0 ? infos.get(0) : new Info() ).build());
+            }
         }
 
         return ResponseResult.success(mapList);

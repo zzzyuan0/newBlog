@@ -59,20 +59,14 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     @Override
     @Bean
     public CacheResolver cacheResolver() {
-        return new SimpleCacheResolver(cacheManager());
+        return new SimpleCacheResolver(Objects.requireNonNull(cacheManager()));
     }
 
     @Override
     @Bean
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(target.getClass().getName()).append(".");
-            sb.append(method.getName()).append(".");
-            for (Object param : params) {
-                sb.append(param.toString());
-            }
-            return sb.toString();
+            return method.getName();
         };
     }
 

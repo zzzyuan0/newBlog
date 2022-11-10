@@ -1,8 +1,8 @@
-package cn.zzzyuan.service.impl;
+package cn.zzzyuan.user.service.impl;
 
-import cn.zzzyuan.entity.Info;
-import cn.zzzyuan.mapper.InfoMapper;
-import cn.zzzyuan.service.InfoService;
+import cn.zzzyuan.user.entity.Info;
+import cn.zzzyuan.user.mapper.InfoMapper;
+import cn.zzzyuan.user.service.InfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

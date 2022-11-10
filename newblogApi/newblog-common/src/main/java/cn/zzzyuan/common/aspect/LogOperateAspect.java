@@ -32,7 +32,7 @@ public class LogOperateAspect {
 
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${mq.config.exchange.log}")
+    @Value("${mq.config.exchange.route}")
     private String exchange;
 
     @Value("${mq.config.queue.routing-key.log}")

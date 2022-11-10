@@ -12,7 +12,6 @@
     <modules>
         <module>newblog-blog</module>
         <module>newblog-user</module>
-        <module>newblog-forum</module>
         <module>newblog-gateway</module>
         <module>newblog-three-server</module>
         <module>newblog-common</module>

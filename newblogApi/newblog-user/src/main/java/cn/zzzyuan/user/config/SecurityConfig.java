@@ -1,4 +1,4 @@
-package cn.zzzyuan.config;
+package cn.zzzyuan.user.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

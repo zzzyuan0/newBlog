@@ -2,7 +2,15 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 116.205.187.238:8849
+        server-addr: localhost:8848
       config:
-        server-addr: 116.205.187.238:8849
-        file-extension: yml
+          server-addr: localhost:8848
+          file-extension: yaml
+          name: user-server-config.yaml
+          extension-configs[0]:
+            data-id: rabbitmq-config.yaml
+
+
+
+
+

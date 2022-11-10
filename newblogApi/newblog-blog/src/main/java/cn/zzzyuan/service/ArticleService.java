@@ -2,10 +2,12 @@ package cn.zzzyuan.service;
 
 import cn.zzzyuan.entity.Article;
 import cn.zzzyuan.entity.Category;
+import cn.zzzyuan.entity.dto.ArticleDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,8 +20,10 @@ import java.util.List;
  */
 public interface ArticleService extends IService<Article> {
 
-    List<Article> getArticleHeat(Integer num);
+    List<ArticleDTO> getArticleHeat(Integer num);
 
-    IPage<Article> getArticleByTagPage(IPage<Article> page, QueryWrapper<Category> wrapper);
+    HashMap<String, Object> getArticleByPageAndCategory(Integer page, Integer categoryId);
+
+    public HashMap<String, Object> getArticleByPage(Integer page, HashMap<String, String> params);
 
 }

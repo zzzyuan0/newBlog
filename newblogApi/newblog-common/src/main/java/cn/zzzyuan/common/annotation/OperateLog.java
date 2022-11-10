@@ -17,7 +17,7 @@ public @interface OperateLog {
     String module() default "";
 
     // 操作类型
-    int type() default -1;
+    String type() default "";
 
     // 操作说明
     String desc() default "";

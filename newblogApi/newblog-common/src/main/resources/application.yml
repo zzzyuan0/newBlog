@@ -1,7 +1,8 @@
-spring:
-  rabbitmq:
-    port: 5672
-    addresses: 116.205.187.238
-    password: guest
-    username: guest
-
+mq:
+  config:
+    exchange:
+      route: route.direct
+    queue:
+      routing-key:
+        email: emial_queue
+        log: log_queue

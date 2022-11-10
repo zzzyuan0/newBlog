@@ -1,4 +1,4 @@
-package cn.zzzyuan;
+package cn.zzzyuan.user;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("cn.zzzyuan.mapper")
+@MapperScan("cn.zzzyuan.user.mapper")
 @EnableFeignClients
 public class NewblogUserApplication {
 

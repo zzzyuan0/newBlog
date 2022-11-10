@@ -3,6 +3,7 @@ package cn.zzzyuan.controller;
 
 import cn.zzzyuan.entity.Article;
 import cn.zzzyuan.common.entity.ResponseResult;
+import cn.zzzyuan.entity.dto.ArticleDTO;
 import cn.zzzyuan.feign.UserFeign;
 import cn.zzzyuan.service.ArticleService;
 import cn.zzzyuan.service.CategoryService;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -68,11 +71,7 @@ public class IndexController {
 
 //        最新获取文章
         CompletableFuture<Void> articleList = CompletableFuture.runAsync(() -> {
-            Page<Article> articlePage = articleService.page(new Page<Article>(0, 6),
-                    new QueryWrapper<Article>().orderByDesc("create_time"));
-            stringObjectHashMap.put("articleList", articlePage.getRecords());
-            stringObjectHashMap.put("currentPage", articlePage.getCurrent());
-            stringObjectHashMap.put("total", articlePage.getTotal());
+            stringObjectHashMap.putAll(articleService.getArticleByPage(0, new HashMap<>(0)));
         }, threadPoolExecutor);
 
 

@@ -2,8 +2,10 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 116.205.187.238:8849
+        server-addr: localhost:8848
       config:
-        server-addr: 116.205.187.238:8849
-        file-extension: yml
+        server-addr: localhost:8848
+        file-extension: yaml
+        name: gateway-server-config.yaml
+
 

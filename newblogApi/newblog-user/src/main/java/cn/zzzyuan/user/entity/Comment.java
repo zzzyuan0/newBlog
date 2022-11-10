@@ -38,7 +38,9 @@ public class Comment implements Serializable ,Comparable<Comment> {
      */
     private Integer userId;
 
-
+    /*
+    * 评论内容
+    */
     private String content;
 
     /**

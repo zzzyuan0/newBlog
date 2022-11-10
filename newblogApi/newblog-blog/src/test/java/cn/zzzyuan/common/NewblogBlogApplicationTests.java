@@ -16,7 +16,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import java.util.List;
 
 @SpringBootTest
-class NewblogBlogApplicationTests extends ApplicationContextAware {
+class NewblogBlogApplicationTests  {
 
     @Autowired
     private ImgUrlService imgUrlService;
@@ -29,11 +29,7 @@ class NewblogBlogApplicationTests extends ApplicationContextAware {
         // 获取bean的方式
         ApplicationContext context = new FileSystemXmlApplicationContext("xml");
         context.getBean("bean");
-        FactoryBean factoryBean = new DefaultListableBeanFactory().createBean(, , )
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-//        applicationContext.getBean()
-    }
+
 }

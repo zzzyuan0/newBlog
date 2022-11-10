@@ -7,7 +7,7 @@ const routes = [
     name: 'Index',
     component: loadView("Index")
   }, {
-    path: '/article',
+    path: '/article/:id',
     name: 'article',
     component: loadView("article/Article")
   }, {

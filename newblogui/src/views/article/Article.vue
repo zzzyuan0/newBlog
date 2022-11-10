@@ -18,8 +18,10 @@
 
 <script>
     import marked from "marked"
-    import {reactive,ref} from "vue"
+    import {reactive,ref, onMounted} from "vue"
     import {loadComponent} from "../../utils/importUtil";
+    import {getArticleById} from "../../api/article"
+    import {useRoute} from "vue-router";
     export default {
         name: "Article",
         components:{
@@ -29,40 +31,19 @@
             ChildHead: loadComponent("ChildHead"),
             Comment: loadComponent("Comment")
         },
-        setup(){
+        setup(props, context){
             let article = reactive({
-                title:"無名植物",
-                heat:"13",
-                context: "---\n" +
-                    "title:  Docker 入门\n" +
-                    "date: 2020-8-8 17:28:52\n" +
-                    "categories:\n" +
-                    "- Docker\n" +
-                    "\n" +
-                    "---\n" +
-                    "\n" +
-                    "# Docker\n" +
-                    "\n" +
-                    "* Docker 概述\n" +
-                    "* Docker 安装\n" +
-                    "* Docker 命令\n" +
-                    "  * 镜像命令\n" +
-                    "  * 容器命令\n" +
-                    "  * 操作命令\n" +
-                    "  * ...\n" +
-                    "* Docker 镜像\n" +
-                    "* 容器的数据卷\n" +
-                    "* DockerFile\n" +
-                    "* Docker 网络原理\n" +
-                    "* idea 整合 Docker\n" +
-                    "* Docker Compose\n" +
-                    "* Docker Swarm\n" +
-                    "* Cl\\CD jenkins\n" +
-                    "\n"
-
+                title:"",
+                heat:"",
+                context: ""
             })
-             article.context = marked(article.context)
-
+            article.context = marked(article.context)
+            let router = useRoute()
+            onMounted(() => {
+                getArticleById(router.params).then(res => {
+                    console.log(res)
+                })
+            })
             let listenMethod = ()=>{}
 
             return {
