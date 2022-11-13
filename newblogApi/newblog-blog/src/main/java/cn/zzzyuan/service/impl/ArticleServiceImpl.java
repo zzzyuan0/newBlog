@@ -54,7 +54,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleDTO> list = new ArrayList<>();
         if(hasCache) {
             Set<ZSetOperations.TypedTuple<String>> typedTuples =
-                    redisTemplate.opsForZSet().reverseRangeByScoreWithScores("articleHeatCacheKey", 0, 10);
+                    redisTemplate.opsForZSet().reverseRangeWithScores(articleHeatCacheKey, 0, 10);
             if(typedTuples != null) {
 
                 for (ZSetOperations.TypedTuple<String> typedTuple : typedTuples) {
@@ -62,7 +62,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     if (value == null) {
                         continue;
                     }
-                    String[] values = value.split("$");
+                    String[] values = value.split("\\$");
                     list.add(list.size(),new ArticleDTO()
                             .setId(values[0])
                             .setTitle(values[1])
@@ -108,6 +108,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .allEq(params)
                         .orderByDesc("create_time"));
         return pageToDtoPage(articlePage);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "articleInfoCache", key = "'articleInfo' + #id")
+    public ArticleDTO getArticleAndCategoryById(Integer id) {
+        return baseMapper.getArticleAndCategoryById(id);
     }
 
     private HashMap<String, Object> pageToDtoPage(IPage<Article> iPage) {

@@ -1,5 +1,6 @@
 package cn.zzzyuan.entity.dto;
 
+import cn.zzzyuan.entity.Category;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,6 +13,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -70,5 +72,10 @@ public class ArticleDTO implements Serializable {
      * 是否可见 默认可见 1 不可见 0
      */
     private Integer visibility;
+
+    /*
+    *  文章分类信息
+    */
+    private List<Category> categories;
 
 }

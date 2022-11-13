@@ -1,6 +1,6 @@
 <template>
     <div id="leftMenu">
-        <div id="mainPanel" :class="{mainPanel_move:!isMove}">
+        <div id="mainPanel" :class="{mainPanel_move:!style.leftHide}">
             <div id="title">杂货店的阿猿</div>
             <div id="avatarPanel">
                 <div id="mybackgroud"></div>
@@ -45,9 +45,9 @@
                         <template #label>
                             <span slot="label"><i class="iconfont icon-redu" title="热度排行"></i></span>
                         </template>
-                        <router-link class="leftRow" :to="{name:'Login'}" v-for="(item,index) in leftData.articleHeatList">
-                            <i class="el-icon-huo">{{item.heat}}</i>
+                        <router-link class="leftRow heat" :to="{name:'Login'}" v-for="(item,index) in leftData.articleHeatList">
                             {{item.title}}
+                            <i class="iconfont icon-redu" style="left: 0; color: orangered; font-size: 3vh">{{item.heat}}</i>
                         </router-link>
                     </el-tab-pane>
                     <el-tab-pane name="el2" class="panel">
@@ -69,11 +69,11 @@
                 </el-tabs>
             </div>
         </div>
-        <div id="leftMenuBtn"  :class="{move:isMove}" >
-            <div v-show="!isMove" id="right" class="iconfont icon-right" @click="isMove = true">
+        <div id="leftMenuBtn"  :class="{move:style.leftHide}" >
+            <div v-show="!style.leftHide" id="right" class="iconfont icon-right" @click="enterMove">
             </div>
-            <div id="left" v-show="isMove" >
-                <i id="leftIcon" class="iconfont icon-right" @click="isMove = false"></i>
+            <div id="left" v-show="style.leftHide" >
+                <i id="leftIcon" class="iconfont icon-right" @click="enterMove"></i>
             </div>
         </div>
     </div>
@@ -82,15 +82,16 @@
 </template>
 
 <script>
-    import {reactive,ref,toRefs} from 'vue'
+    import {reactive, ref, toRefs, onMounted} from 'vue'
     import {getIndexExtApi} from "../api";
-
+    import {useStore} from "vuex"
     export default {
         name: "LeftMenu",
         setup(props, context){
-            let isMove = ref(true)
-            let isHide= ref(false)
-
+            let store = useStore()
+            let style = reactive({
+                leftHide: false
+            })
             let leftData = reactive({})
             getIndexExtApi().then(res => {
                 leftData.categoryList = res.categoryList
@@ -100,8 +101,19 @@
             })
 
             let activeTab = ref("el0")
+            const enterMove = ()=>{
+                // 直接賦值style會把代理對象覆蓋
+                Object.assign(style, store.getters.getStyle)
+                style.leftHide = !style.leftHide
+                store.commit("SET_STYLE",style)
+            }
+
+            onMounted(()=>{
+                 Object.assign(style, store.getters.getStyle)
+            })
+
             return {
-                isMove,isHide,leftData,activeTab
+                style,leftData,activeTab,enterMove
             }
         }
     }
@@ -349,6 +361,11 @@
                 border-bottom: 1px solid black;
             }
 
+            .heat {
+                color: white;
+                font-size: 3vh;
+            }
+
             .category {
                 min-width: 5px;
                 min-height: 5px;
@@ -408,7 +425,8 @@
 
     }
 
-    .mainPanel_move{
+    .mainPanel_move {
+        transition-duration: 1s;
         transform: translate(-100%,0) !important;
     }
 

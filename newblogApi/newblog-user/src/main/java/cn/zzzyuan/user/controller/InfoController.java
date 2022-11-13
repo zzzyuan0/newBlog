@@ -65,6 +65,19 @@ public class InfoController {
         return ResponseResult.error(null);
     }
 
+    @GetMapping("/getUserById")
+    @OperateLog(module = "${spring.application.name}", type = LogOperateTypeContent.LOG_TYPE_GET,
+            desc = "获取用户信息",paramDesc = "用户id",paramType = "String")
+    public ResponseResult getUserInfoById(@NotNull @RequestParam("id")Integer id) {
+        log.info("========获取用户{}信息======",id);
+        Info info = infoService.getOne(new QueryWrapper<Info>()
+                .eq("id", id));
+        if(ObjectUtils.isNotEmpty(info)){
+            return ResponseResult.success(info);
+        }
+        return ResponseResult.error(null);
+    }
+
     @PostMapping("/login")
     public ResponseResult login(@Validated @RequestBody LoginDTO loginDTO){
         log.info("===========登录获取令牌=========");

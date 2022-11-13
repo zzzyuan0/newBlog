@@ -3,6 +3,7 @@ package cn.zzzyuan.mapper;
 import cn.zzzyuan.entity.Article;
 import cn.zzzyuan.entity.ArticleCategoryRel;
 import cn.zzzyuan.entity.Category;
+import cn.zzzyuan.entity.dto.ArticleDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -29,5 +30,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
             "FROM  t_category_blog t2 INNER JOIN t_blog t3 ON t3.id= t2.article_id ${ew.customSqlSegment}")
     IPage<Article> getBlogByCategoryIpage(IPage<Article> page,
                                           @Param(Constants.WRAPPER) QueryWrapper<ArticleCategoryRel> wrappers);
+
+
+    ArticleDTO getArticleAndCategoryById(@Param("id") Integer id);
+
 
 }

@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     taken:'',
-    userInfo:''
+    userInfo:'',
+    style:{}
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -19,6 +20,10 @@ export default createStore({
       state.username = '';
       localStorage.removeItem("token")
       sessionStorage.removeItem("username");
+    },
+    SET_STYLE: (state, style) => {
+      state.style = style
+      localStorage.setItem("style", JSON.stringify(style))
     },
   },
   getters:{
@@ -41,6 +46,16 @@ export default createStore({
         }
       }
       return state.username
+    },
+    getStyle: state => {
+      if (state.style == null) {
+        let style = localStorage.getItem('style')
+        if (style != null) {
+          state.style = JSON.parse(style)
+          return style
+        }
+      }
+      return state.style
     },
   },
   actions: {

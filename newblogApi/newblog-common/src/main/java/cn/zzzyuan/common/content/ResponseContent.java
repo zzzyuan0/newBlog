@@ -19,6 +19,7 @@ public enum  ResponseContent {
     MISS_PARAMETER(452,"缺少参数，请按要求传参"),
 
     ILLEGAL_ARGUMENT(453,"参数不合要求，请按要求传参");
+
     // 返回码
     private int code;
     // 返回信息

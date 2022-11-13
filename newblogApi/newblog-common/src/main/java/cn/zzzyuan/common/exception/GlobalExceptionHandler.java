@@ -29,11 +29,11 @@ public class GlobalExceptionHandler{
         return ResponseResult.error(ResponseContent.MISS_PARAMETER.msg(),ResponseContent.MISS_PARAMETER.code(),null);
     }
 
-//    @ExceptionHandler(RedisCommandTimeoutException.class)
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseResult missingServletRequestParameterException(MissingServletRequestParameterException e){
-//        log.error("{}--{}，异常类型--{}",ResponseContent.MISS_PARAMETER.msg(), e.getMessage(),e.getClass());
-//        return ResponseResult.error(ResponseContent.MISS_PARAMETER.msg(),ResponseContent.MISS_PARAMETER.code(),null);
-//    }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseResult allException(Exception e){
+        log.error("{}--{}，异常类型--{}",ResponseContent.ERROR.msg(), e.getMessage(),e.getClass());
+        return ResponseResult.error(ResponseContent.ERROR.msg(),ResponseContent.ERROR.code(),null);
+    }
 
 }

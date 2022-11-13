@@ -2,4 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.zzzyuan.mapper.ArticleMapper">
 
+    <resultMap id="ArticleAndCategoryResult" type="cn.zzzyuan.entity.dto.ArticleDTO">
+         <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="heat" property="heat"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime" />
+        <collection property="categories" ofType="cn.zzzyuan.entity.Category">
+            <result column="category_id" property="id"/>
+            <result column="category_name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="getArticleAndCategoryById" resultMap="ArticleAndCategoryResult" parameterType="int">
+            SELECT t1.*, t3.`id` as category_id, t3.`name` as category_name
+            from t_blog_article t1
+            left join t_blog_article_category_rel t2
+            on t1.id = t2.article_id
+            left JOIN t_blog_category t3
+            on t2.category_id = t3.id
+            where t1.id = #{id}
+    </select>
+
 </mapper>

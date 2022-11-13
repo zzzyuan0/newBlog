@@ -54,10 +54,4 @@ public class Category implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createTime;
 
-    /**
-     * 分类等级 0 语言 1 一级分类 2 二级分类
-     */
-    private Integer status;
-
-
 }

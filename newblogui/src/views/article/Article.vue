@@ -4,12 +4,20 @@
         <child-head>
             <template v-slot>
                 <div id="articleInfo">
-                    <div id="title">我是标题</div>
-                    <div id="info">作者：1111 时间11111</div>
+                    <div id="title">{{articleInfo.article.title}}</div>
+                    <div id="info">
+                        作者： {{articleInfo.userInfo.name}}   <br/>
+                        时间: {{articleInfo.article.createTime}}
+                    </div>
+                    <div id="categories">
+                         <span class="category" v-for="item in articleInfo.article.categories">
+                             {{item.name}}
+                         </span>
+                    </div>
                 </div>
             </template>
         </child-head>
-        <div id="context" v-html="article.context"></div>
+        <div id="context" v-html="articleInfo.article.content"></div>
         <comment></comment>
         <left-menu></left-menu>
         <right-menu ref="rightMenu"></right-menu>
@@ -32,22 +40,31 @@
             Comment: loadComponent("Comment")
         },
         setup(props, context){
-            let article = reactive({
-                title:"",
-                heat:"",
-                context: ""
+            let articleInfo = reactive({
+                "userInfo": {
+                    "name": ""
+                },
+                "article": {
+                    "title": "",
+                    "content": "",
+                    "heat": 0,
+                    "createTime": "",
+                    "categories": []
+                }
             })
-            article.context = marked(article.context)
             let router = useRoute()
             onMounted(() => {
-                getArticleById(router.params).then(res => {
-                    console.log(res)
-                })
+                    getArticleById(router.params).then(res => {
+                        console.log(res)
+                        Object.assign(articleInfo, res)
+                        console.log(articleInfo)
+                        articleInfo.article.content = marked(articleInfo.article.content)
+                    })
             })
             let listenMethod = ()=>{}
 
             return {
-                article,listenMethod
+                articleInfo,listenMethod
             }
         },
         mounted() {
@@ -80,13 +97,24 @@
 
     #article{
         #articleInfo{
-            line-height: 10vh;
+            padding-top: 4vh;
+            padding-bottom: 4vh;
+            line-height: 7vh;
             width: 100%;
             text-align: center;
             #title {
                 color: #ffffff;
                 font-weight: 400;
                 font-size: 8vh;
+            }
+            #categories {
+                line-height: 1vh;
+            }
+            .category {
+                border: silver 1px solid;
+                margin: 0 5px;
+                padding: 1px 5px;
+                border-radius: 15px;
             }
         }
 

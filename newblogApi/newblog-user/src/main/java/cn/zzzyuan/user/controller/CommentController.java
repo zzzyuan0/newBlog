@@ -44,7 +44,6 @@ public class CommentController {
     @GetMapping("/get")
     public ResponseResult selectByArticleGetComment(@RequestParam(name = "id") Integer id){
         log.info("=====正在获取文章评论========");
-
         return ResponseResult.success(commentService.selectByArticleGetComment(id));
     }
 

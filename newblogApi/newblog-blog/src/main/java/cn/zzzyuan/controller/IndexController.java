@@ -48,7 +48,6 @@ public class IndexController {
     private final ThreadPoolExecutor threadPoolExecutor;
 
 
-
     public IndexController(ImgUrlService imgUrlService, CategoryService categoryService, ArticleService articleService,
                            UserFeign userFeign, ThreadPoolExecutor threadPoolExecutor) {
         this.imgUrlService = imgUrlService;
@@ -89,8 +88,7 @@ public class IndexController {
 
 //        获取文章热度排行
         CompletableFuture<Void> articleHeatList = CompletableFuture.runAsync(() -> {
-            stringObjectHashMap.put("articleHeatList", articleService.list(new QueryWrapper<Article>().orderByAsc("heat")
-                    .select("title", "heat").last("limit 0,10")));
+            stringObjectHashMap.put("articleHeatList", articleService.getArticleHeat(10));
         }, threadPoolExecutor);
 
 

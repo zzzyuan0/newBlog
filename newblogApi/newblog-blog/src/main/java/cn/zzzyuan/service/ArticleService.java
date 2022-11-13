@@ -24,6 +24,8 @@ public interface ArticleService extends IService<Article> {
 
     HashMap<String, Object> getArticleByPageAndCategory(Integer page, Integer categoryId);
 
-    public HashMap<String, Object> getArticleByPage(Integer page, HashMap<String, String> params);
+    HashMap<String, Object> getArticleByPage(Integer page, HashMap<String, String> params);
+
+    ArticleDTO getArticleAndCategoryById(Integer id);
 
 }
