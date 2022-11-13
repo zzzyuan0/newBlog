@@ -49,6 +49,9 @@ public class ArticleController {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
+    /*
+    * 通过文章id获取文章信息
+    */
     @GetMapping("/get")
     public ResponseResult getArticleById(@RequestParam("id") String id) {
         // 解析加密后的id
