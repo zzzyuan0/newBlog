@@ -7,4 +7,8 @@ spring:
         server-addr: localhost:8848
         file-extension: yaml
         name: three-server-config.yaml
+        extension-configs[0]:
+          data-id: rabbitmq-config.yaml
+        extension-configs[1]:
+          data-id: redis-config.yaml
 
