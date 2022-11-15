@@ -44,7 +44,7 @@
 
 <script>
 import {loadComponent} from "../utils/importUtil"
-import {getIndexApi} from "../api";
+import {getIndexApi} from "../api/blog";
 import {ref,reactive,onMounted,onUnmounted} from "vue"
 import Head from "../components/Head";
 

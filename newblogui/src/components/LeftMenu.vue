@@ -83,7 +83,7 @@
 
 <script>
     import {reactive, ref, toRefs, onMounted} from 'vue'
-    import {getIndexExtApi} from "../api";
+    import {getIndexExtApi} from "../api/blog";
     import {useStore} from "vuex"
     export default {
         name: "LeftMenu",

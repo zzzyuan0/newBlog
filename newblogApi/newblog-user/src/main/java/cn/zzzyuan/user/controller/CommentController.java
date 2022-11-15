@@ -8,11 +8,11 @@ import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.user.service.CommentService;
 import cn.zzzyuan.user.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.ibatis.annotations.Update;
+import org.hashids.Hashids;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -33,18 +33,25 @@ public class CommentController {
 
     private final InfoService infoService;
 
-    public CommentController(CommentService commentService, InfoService infoService) {
+    private final Hashids hashids;
+
+    public CommentController(CommentService commentService, InfoService infoService, Hashids hashids) {
         this.commentService = commentService;
         this.infoService = infoService;
+        this.hashids = hashids;
     }
 
     /**
      * 通过文章id查找对应的所属评论
      */
     @GetMapping("/get")
-    public ResponseResult selectByArticleGetComment(@RequestParam(name = "id") Integer id){
-        log.info("=====正在获取文章评论========");
-        return ResponseResult.success(commentService.selectByArticleGetComment(id));
+    public ResponseResult selectByArticleGetComment(@RequestParam(name = "id") String id){
+        log.info("=====正在获取文章评论========" + id);
+        long[] decode = hashids.decode(id);
+        if(decode.length != 0) {
+            return ResponseResult.success(commentService.selectByArticleGetComment((int) decode[0]));
+        }
+       return ResponseResult.error(null);
     }
 
     @GetMapping("/heat-list")
@@ -66,6 +73,12 @@ public class CommentController {
         }
 
         return ResponseResult.success(mapList);
+    }
+
+    @GetMapping("/addHeat")
+    public ResponseResult selectByArticleGetComment(@RequestParam(name = "id") Integer commentId){
+        commentService.update(new UpdateWrapper<Comment>().eq("id", commentId).setSql("`heat` = `heat` + 1"));
+        return ResponseResult.success();
     }
 
 

@@ -18,7 +18,7 @@
             </template>
         </child-head>
         <div id="context" v-html="articleInfo.article.content"></div>
-        <comment></comment>
+        <comment :articleId="articleId"></comment>
         <left-menu></left-menu>
         <right-menu ref="rightMenu"></right-menu>
     </div>
@@ -28,7 +28,7 @@
     import marked from "marked"
     import {reactive,ref, onMounted} from "vue"
     import {loadComponent} from "../../utils/importUtil";
-    import {getArticleById} from "../../api/article"
+    import {getArticleById} from "../../api/blog"
     import {useRoute} from "vue-router";
     export default {
         name: "Article",
@@ -53,18 +53,18 @@
                 }
             })
             let router = useRoute()
+            let articleId = ref(0)
             onMounted(() => {
-                    getArticleById(router.params).then(res => {
-                        console.log(res)
+                   articleId.value = router.params
+                    getArticleById(articleId.value).then(res => {
                         Object.assign(articleInfo, res)
-                        console.log(articleInfo)
                         articleInfo.article.content = marked(articleInfo.article.content)
                     })
             })
             let listenMethod = ()=>{}
 
             return {
-                articleInfo,listenMethod
+                articleInfo,listenMethod,articleId
             }
         },
         mounted() {
