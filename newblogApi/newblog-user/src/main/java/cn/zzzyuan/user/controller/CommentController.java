@@ -81,5 +81,17 @@ public class CommentController {
         return ResponseResult.success();
     }
 
+    @PostMapping("/save")
+    public ResponseResult saveComment(@RequestBody Comment comment, String articleId) {
+        long[] decode = hashids.decode(articleId);
+        if (decode.length >= 1) {
+            comment.setArticleId((int) decode[0]);
+            boolean b = commentService.saveOrUpdate(comment);
+            if (b) {
+                return ResponseResult.success();
+            }
+        }
+        return ResponseResult.error(null);
+    }
 
 }

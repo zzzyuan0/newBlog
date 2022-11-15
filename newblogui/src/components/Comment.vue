@@ -1,47 +1,67 @@
 <template>
     <div id="comment">
         <div class="comment-parent" v-for="comment in commentTree">
-            <div class="info">
+            <div class="info" style="display: flex">
                 <el-avatar :src="comment.info.avatar">猿</el-avatar>
-                <label>{{comment.info.name}}</label>
+                <label style="margin: 2.5vh 1vw;position: relative;">{{comment.info.name}}</label>
             </div>
             <label class="comment-content">{{comment.comment.content}}</label>
             <div class="icon">
                 {{comment.comment.createTime}}
-                <i class="iconfont icon-dianzan" style="margin: 0 1vw">{{comment.comment.heat}}</i>
-                <i class="iconfont icon-pinglun" style="margin: 0 1vw"></i>
+                <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat">{{comment.comment.heat}}</i>
+                <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(comment.comment.id)"></i>
             </div>
             <div class="child" v-if="comment.commentTrees != null">
                 <div class="comment-child" v-for="item in comment.commentTrees">
-                    <div class="info">
+                    <div class="info" style="display: flex">
                         <el-avatar :src="item.info.avatar">猿</el-avatar>
-                        <label>{{item.info.name}}</label>
+                        <label style="margin: 2.5vh 1vw;position: relative;">{{item.info.name}}</label>
                     </div>
                     <label class="comment-content">{{item.comment.content}}</label>
                     <div class="icon">
                         {{item.comment.createTime}}
                         <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat">{{item.comment.heat}}</i>
-                        <i class="iconfont icon-pinglun" style="margin: 0 1vw"></i>
+                        <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(item.comment.id)"></i>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="edit-comment" v-show="showEdit">
+            <el-input
+                    id="edit-text"
+                    v-model="commentReq.content"
+                    :rows="10"
+                    type="textarea"
+                    placeholder="请输入回复的内容"
+            />
+            <div id="edit-btn">
+                <el-button type="primary" plain @click="sendComment">发送</el-button>
+                <el-button type="warning" plain @click="showEdit = false">取消</el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {reactive, onMounted} from "vue"
+    import {reactive, ref, onMounted} from "vue"
     import {getCommentApi, addCommentHeatApi} from "../api/user"
     export default {
         name: "Comment",
         props: {
-            articleId: String
+            articleId: 0
         },
         setup(props, context) {
             let commentTree = reactive([])
+            let showEdit = ref(false)
+            let commentReq = reactive({
+                userId: -1,
+                content: "",
+                articleId: props.articleId,
+                parentId: 0,
+                status: 0
+            })
             onMounted(()=>{
                 getCommentApi(props.articleId).then(res => {
-                    console.log(res)
                     Object.assign(commentTree, res)
                 })
             })
@@ -50,8 +70,15 @@
 
                  })
             }
+            function editComment(commentId) {
+                 showEdit.value = true
+                 commentReq.parentId = commentId
+            }
+            function sendComment() {
+                 showEdit.value = false
+            }
             return {
-                commentTree,props, addCommentHeat
+                commentTree,props, addCommentHeat, showEdit, commentReq, editComment, sendComment
             }
         }
     }
@@ -78,7 +105,7 @@
             padding: 5px;
             .icon {
                 float: right;
-                .icon-dianzan:hover {
+                *:hover {
                     color: #656060;
                 }
             }
@@ -103,6 +130,25 @@
                 border-radius: 5px;
             }
         }
+        #edit-comment {
+            position: fixed;
+            width: 60vw;
+            height: 60vh;
+            background: rgba(255, 255, 255, 0.84);
+            top: 30vh;
+            border-radius: 10px;
+            border: white 1px solid;
+        }
     }
-
+</style>
+<style>
+    #edit-comment #edit-text {
+        width: 55vw;
+        margin: 5vh 5vh;
+        height: 40vh !important;
+    }
+    #edit-comment #edit-btn {
+        float: right;
+        margin-right: 5vw;
+    }
 </style>
