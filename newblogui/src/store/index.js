@@ -38,14 +38,15 @@ export default createStore({
       return state.username
     },
     getToken: state => {
-      if (state.token === '') {
-        let localToken = localStorage.getItem('username')
+      console.log(state.token + "===")
+      if (!state.token) {
+        let localToken = localStorage.getItem('token')
         if (localToken != null) {
-          state.username = JSON.parse(localToken)
+          state.token = JSON.parse(localToken)
           return localToken
         }
       }
-      return state.username
+      return state.token
     },
     getStyle: state => {
       if (state.style == null) {

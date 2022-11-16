@@ -8,7 +8,7 @@
             <label class="comment-content">{{comment.comment.content}}</label>
             <div class="icon">
                 {{comment.comment.createTime}}
-                <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat">{{comment.comment.heat}}</i>
+                <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat(comment.comment)">{{comment.comment.heat}}</i>
                 <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(comment.comment.id)"></i>
             </div>
             <div class="child" v-if="comment.commentTrees != null">
@@ -20,7 +20,7 @@
                     <label class="comment-content">{{item.comment.content}}</label>
                     <div class="icon">
                         {{item.comment.createTime}}
-                        <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat">{{item.comment.heat}}</i>
+                        <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat(item.comment)">{{item.comment.heat}}</i>
                         <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(item.comment.id)"></i>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     placeholder="请输入回复的内容"
             />
             <div id="edit-btn">
-                <el-button type="primary" plain @click="sendComment">发送</el-button>
+                <el-button type="primary" plain @click="saveComment">发送</el-button>
                 <el-button type="warning" plain @click="showEdit = false">取消</el-button>
             </div>
         </div>
@@ -44,7 +44,7 @@
 
 <script>
     import {reactive, ref, onMounted} from "vue"
-    import {getCommentApi, addCommentHeatApi} from "../api/user"
+    import {getCommentApi, addCommentHeatApi, saveCommentApi} from "../api/user"
     export default {
         name: "Comment",
         props: {
@@ -65,20 +65,25 @@
                     Object.assign(commentTree, res)
                 })
             })
-            function addCommentHeat(commentId) {
-                 addCommentHeatApi(commentId).then(res => {
-
+            function addCommentHeat(comment) {
+                 addCommentHeatApi({
+                     id:  comment.id
+                 }).then(res => {
+                       comment.head++
                  })
             }
             function editComment(commentId) {
                  showEdit.value = true
                  commentReq.parentId = commentId
             }
-            function sendComment() {
+            function saveComment() {
                  showEdit.value = false
+                 saveCommentApi(commentReq).then(res =>{
+                     console.log(res)
+                 })
             }
             return {
-                commentTree,props, addCommentHeat, showEdit, commentReq, editComment, sendComment
+                commentTree,props, addCommentHeat, showEdit, commentReq, editComment, saveComment
             }
         }
     }
