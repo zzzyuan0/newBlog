@@ -1,7 +1,9 @@
 package cn.zzzyuan.user.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.common.entity.Token;
+import cn.zzzyuan.user.feign.AuthFeign;
 import cn.zzzyuan.user.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * @author codesuperman@foxmail.com
@@ -34,22 +39,26 @@ public class TokenServiceImpl implements TokenService {
     @Value("${oauth.scope}")
     private  String scope;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    private final AuthFeign authFeign;
+
+    public TokenServiceImpl(RestTemplate restTemplate, AuthFeign authFeign) {
+        this.restTemplate = restTemplate;
+        this.authFeign = authFeign;
+    }
 
 
     @Override
     public Token getToken(String username, String password) {
-        MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<>();
-        valueMap.set("username", username);
-        valueMap.set("password",password);
-        valueMap.set("grant_type", grantType);
-        valueMap.set("client_id", clientId);
-        valueMap.set("client_secret", clientSecret);
-        valueMap.set("scope", scope);
-        Object jsonObject = restTemplate.postForObject(url, valueMap, Object.class);
-        Token token = new Token();
-        BeanUtil.copyProperties(jsonObject,token);
-        return token;
+        HashMap<String, String> valueMap = new LinkedHashMap<>();
+        valueMap.put("username", username);
+        valueMap.put("password",password);
+        valueMap.put("grant_type", grantType);
+        valueMap.put("client_id", clientId);
+        valueMap.put("client_secret", clientSecret);
+        valueMap.put("scope", scope);
+        Token oauthToken = authFeign.getOauthToken(valueMap);
+        return oauthToken;
     }
 }
