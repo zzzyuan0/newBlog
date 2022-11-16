@@ -99,6 +99,7 @@
     import {useStore} from "vuex"
     import { ElForm } from 'element-plus'
     import {postLoginApi, postRegisterApi} from "../../api/common";
+    import {useRouter} from "vue-router";
 
 
 
@@ -110,7 +111,7 @@
         setup(){
 
             let isLogin = ref(true)
-
+            let router = useRouter()
             let countDown = ref(0);
 
             let clickSendCode = ref(true)
@@ -241,7 +242,7 @@
                     if (valid) {
                         console.log('submit!')
                         postRegisterApi(userInfo).then( res => {
-                            console.log(res)
+                            isLogin.value = true
                         })
                     } else {
                         console.log('error submit!')
@@ -259,16 +260,14 @@
                         isRight++
                     }
                 })
-
                 if(isRight === 2){
                     postLoginApi({
                         email: userInfo.email,
                         password: userInfo.password
                     }).then(res => {
-                        res = res.data.data
-                        console.log(res)
                         store.commit("SET_TOKEN",res.token)
                         store.commit("SET_USER_INFO",res.userInfo)
+                        router.back()
                     })
                 }
             }
