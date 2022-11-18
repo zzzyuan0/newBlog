@@ -17,11 +17,12 @@ import java.util.List;
 public interface CommentService extends IService<Comment> {
 
     /**
-     * 通过文章id获取评论
-     * @param id
-     * @return
+     * 通过文章id和用户id获取评论文章对应评论以及用户是否点赞
+     * @param articleId 文章id
+     * @param userId 用户 id
+     * @return 返回评论树
      */
-    List<CommentTree> selectByArticleGetComment(Integer id);
+    List<CommentTree> selectByArticleAndUserIdGetComment(Integer articleId, Integer userId);
 
 
 }

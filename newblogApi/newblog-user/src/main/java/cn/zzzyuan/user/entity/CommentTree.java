@@ -20,7 +20,7 @@ import java.util.List;
 @Builder
 public class CommentTree implements Serializable,Comparable<CommentTree> {
 
-    private Comment comment;
+    private UserIsLikeComment comment;
 
     private Info info;
 

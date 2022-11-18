@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.zzzyuan.user.mapper.CommentMapper">
 
+    <select id="SelectUserIsLikeCommentInfo" resultType="cn.zzzyuan.user.entity.UserIsLikeComment" parameterType="int">
+        SELECT c.*
+        , (
+            SELECT count(1) AS cnt
+            FROM t_user_comment_user_like l
+            WHERE l.comment_id = c.id
+        ) AS is_like
+        , (
+            SELECT count(1) AS cnt
+            FROM t_user_comment_user_like l
+            WHERE l.comment_id = c.id
+                AND user_id = #{param2}
+        ) AS heat
+        FROM t_user_comment c
+        WHERE c.article_id = #{param1}
+    </select>
 </mapper>

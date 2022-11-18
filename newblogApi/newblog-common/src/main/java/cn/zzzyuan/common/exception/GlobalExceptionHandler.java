@@ -18,22 +18,36 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseResult illegalArgumentException(IllegalArgumentException e){
-        log.error("{}--{}，异常类型--{}",ResponseContent.ILLEGAL_ARGUMENT.msg(), e.getMessage(),e.getClass());
+        log.error(getExceptionDetail(e));
         return ResponseResult.error(ResponseContent.ILLEGAL_ARGUMENT.msg(),ResponseContent.ILLEGAL_ARGUMENT.code(),null);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseResult missingServletRequestParameterException(MissingServletRequestParameterException e){
-        log.error("{}--{}，异常类型--{}",ResponseContent.MISS_PARAMETER.msg(), e.getMessage(),e.getClass());
+        log.error(getExceptionDetail(e));
         return ResponseResult.error(ResponseContent.MISS_PARAMETER.msg(),ResponseContent.MISS_PARAMETER.code(),null);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseResult allException(Exception e){
-        log.error("{}--{}，异常类型--{}",ResponseContent.ERROR.msg(), e.getMessage(),e.getClass());
+        log.error(getExceptionDetail(e));
         return ResponseResult.error(ResponseContent.ERROR.msg(),ResponseContent.ERROR.code(),null);
     }
+
+    public  String getExceptionDetail(Exception e) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(e.getClass()).append(System.getProperty("line.separator"));
+        stringBuilder.append(e.getLocalizedMessage()).append(System.getProperty("line.separator"));
+        StackTraceElement[] arr = e.getStackTrace();
+        for (StackTraceElement stackTraceElement : arr) {
+            stringBuilder.append(stackTraceElement.toString()).append(System.getProperty("line.separator"));
+
+        }
+        return stringBuilder.toString();
+    }
+
 
 }

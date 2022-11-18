@@ -10,7 +10,6 @@ axios.defaults.timeout = 10000;
 //前置攔截
 axios.interceptors.request.use(config => {
     let token = store.getters.getToken
-    console.log("===", token)
     if (!token) return config
 
     token = token.token_type + token.access_token

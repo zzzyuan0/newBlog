@@ -8,7 +8,8 @@
             <label class="comment-content">{{comment.comment.content}}</label>
             <div class="icon">
                 {{comment.comment.createTime}}
-                <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat(comment.comment)">{{comment.comment.heat}}</i>
+                <i class="iconfont icon-dianzan" style="margin: 0 1vw" :style="{color: comment.comment.isLike ? '#f09180' : ''}"
+                   @click="saveCommentHeat(comment.comment)">{{comment.comment.heat}}</i>
                 <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(comment.comment.id)"></i>
             </div>
             <div class="child" v-if="comment.commentTrees != null">
@@ -20,7 +21,8 @@
                     <label class="comment-content">{{item.comment.content}}</label>
                     <div class="icon">
                         {{item.comment.createTime}}
-                        <i class="iconfont icon-dianzan" style="margin: 0 1vw" @click="addCommentHeat(item.comment)">{{item.comment.heat}}</i>
+                        <i class="iconfont icon-dianzan" style="margin: 0 1vw" :style="{color: item.comment.isLike ? '#f09180' : ''}"
+                           @click="saveCommentHeat(item.comment)">{{item.comment.heat}}</i>
                         <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(item.comment.id)"></i>
                     </div>
                 </div>
@@ -44,7 +46,8 @@
 
 <script>
     import {reactive, ref, onMounted} from "vue"
-    import {getCommentApi, addCommentHeatApi, saveCommentApi} from "../api/user"
+    import {getCommentApi, addCommentHeatApi, saveCommentApi, deleteCommentHeatApi} from "../api/user"
+    import {useStore} from "vuex"
     export default {
         name: "Comment",
         props: {
@@ -60,30 +63,57 @@
                 parentId: 0,
                 status: 0
             })
+            let userId = ref(-1)
+            const store = useStore()
             onMounted(()=>{
-                getCommentApi(props.articleId).then(res => {
+                let userInfo = store.getters.getUser
+                if(userInfo && userInfo.id) {
+                    userId.value = userInfo.id
+                }
+                getCommentApi({
+                    articleId: props.articleId,
+                    userId: userId.value
+                }).then(res => {
                     Object.assign(commentTree, res)
                 })
             })
-            function addCommentHeat(comment) {
-                 addCommentHeatApi({
-                     id:  comment.id
-                 }).then(res => {
-                       comment.head++
-                 })
+            // 点赞以及取消赞
+            function saveCommentHeat(comment) {
+                 if (comment.isLike) {
+                     deleteCommentHeatApi({
+                         commentId: comment.id,
+                         userId: userId.value
+                     }).then(res => {
+                         comment.isLike = false
+                         comment.heat = comment.heat - 1
+                     })
+                 } else {
+                     addCommentHeatApi({
+                         commentId: comment.id,
+                         userId: userId.value
+                     }).then(res => {
+                         comment.isLike = true
+                         comment.heat = comment.heat + 1
+                     })
+                 }
+
             }
+            // 回复评论
             function editComment(commentId) {
                  showEdit.value = true
                  commentReq.parentId = commentId
             }
+            // 保存评论
             function saveComment() {
                  showEdit.value = false
+                console.log(commentReq)
+                commentReq.userId = userId
                  saveCommentApi(commentReq).then(res =>{
                      console.log(res)
                  })
             }
             return {
-                commentTree,props, addCommentHeat, showEdit, commentReq, editComment, saveComment
+                commentTree,props, saveCommentHeat, showEdit, commentReq, editComment, saveComment
             }
         }
     }

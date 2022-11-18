@@ -2,28 +2,21 @@ package cn.zzzyuan.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
- * <p>
- * 评论表
- * </p>
- *
- * @author 杂货店的阿猿
- * @since 2021-11-11
+ * @author codesuperman@foxmail.com
+ * @date 2022-11-17
  */
+@AllArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("t_user_comment")
-public class Comment implements Serializable ,Comparable<Comment> {
+@NoArgsConstructor
+public class UserIsLikeComment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,8 +32,8 @@ public class Comment implements Serializable ,Comparable<Comment> {
     private Integer userId;
 
     /**
-    * 评论内容
-    */
+     * 评论内容
+     */
     private String content;
 
     /**
@@ -73,21 +66,14 @@ public class Comment implements Serializable ,Comparable<Comment> {
      */
     private Integer status;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(createTime, comment.createTime);
-    }
+    /**
+     * 热度
+     */
+    private Integer heat;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(createTime);
-    }
+    /**
+     * 用户是否点赞
+     */
+    private Boolean isLike;
 
-    @Override
-    public int compareTo(Comment o) {
-        return createTime.compareTo(o.createTime);
-    }
 }

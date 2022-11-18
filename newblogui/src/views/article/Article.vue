@@ -55,8 +55,10 @@
             let router = useRoute()
             let articleId = ref(0)
             onMounted(() => {
-                   articleId.value = router.params
-                    getArticleById(articleId.value).then(res => {
+                   articleId.value = router.params.id
+                    getArticleById({
+                        id: articleId.value
+                    }).then(res => {
                         Object.assign(articleInfo, res)
                         articleInfo.article.content = marked(articleInfo.article.content)
                     })

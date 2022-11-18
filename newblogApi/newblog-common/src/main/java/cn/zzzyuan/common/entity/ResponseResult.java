@@ -42,13 +42,18 @@ public class ResponseResult implements Serializable {
 
 
     public static ResponseResult error(String msg,int code,Object data){
-        return new ResponseResult(msg,code,data);
+        return new ResponseResult(msg, code, data);
     }
+
     public static ResponseResult error(Object data){
-        return new ResponseResult(ResponseContent.ERROR.msg(),ResponseContent.ERROR.code(),data);
+        return new ResponseResult(ResponseContent.ERROR.msg(), ResponseContent.ERROR.code(), data);
+    }
+
+    public static ResponseResult error(){
+        return new ResponseResult(ResponseContent.ERROR.msg(), ResponseContent.ERROR.code(),null);
     }
 
     public static ResponseResult error(String msg,Object data){
-        return new ResponseResult(msg,ResponseContent.ERROR.code(),data);
+        return new ResponseResult(msg,ResponseContent.ERROR.code(), data);
     }
 }

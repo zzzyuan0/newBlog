@@ -46,19 +46,13 @@ class CustomTokenService extends RemoteTokenServices {
         HashMap<String, String> req = new HashMap<String, String>(1);
         req.put(tokenName, accessToken);
         // 使用openfei进行调用，不依赖对应url
-        Map<String, Object> map = authFeign.checkOauthToken(req);
-
-        if (map.containsKey("error")) {
-            logger.debug("check_token returned error: " + map.get("error"));
+        Map<String, Object> map = null;
+        try {
+            map = authFeign.checkOauthToken(req);
+        } catch (Exception e) {
+            logger.debug("check_token returned error: " + e.getMessage());
             throw new InvalidTokenException(accessToken);
         }
-
-        // gh-838
-        if (!Boolean.TRUE.equals(map.get("active"))) {
-            logger.debug("check_token returned active attribute: " + map.get("active"));
-            throw new InvalidTokenException(accessToken);
-        }
-
         return tokenConverter.extractAuthentication(map);
     }
 

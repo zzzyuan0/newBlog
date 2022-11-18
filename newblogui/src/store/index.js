@@ -11,15 +11,15 @@ export default createStore({
       state.token = token;
       localStorage.setItem("token", JSON.stringify(token))
     },
-    SET_USER_INFO: (state, username) => {
-      state.userInfo = username;
-      sessionStorage.setItem("username", JSON.stringify(username));
+    SET_USER_INFO: (state, userInfo) => {
+      state.userInfo = userInfo;
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
     },
     REMOVE_INFO: (state) => {
       state.token = '';
       state.username = '';
       localStorage.removeItem("token")
-      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("userInfo");
     },
     SET_STYLE: (state, style) => {
       state.style = style
@@ -28,22 +28,19 @@ export default createStore({
   },
   getters:{
     getUser: state => {
-      if (state.username === '') {
-        let sessionUser = sessionStorage.getItem('username')
+      if (!state.userInfo) {
+        let sessionUser = sessionStorage.getItem('userInfo')
         if (sessionUser != null) {
-          state.username = JSON.parse(sessionUser)
-          return sessionUser
+          state.userInfo = JSON.parse(sessionUser)
         }
       }
-      return state.username
+      return state.userInfo
     },
     getToken: state => {
-      console.log(state.token + "===")
       if (!state.token) {
         let localToken = localStorage.getItem('token')
         if (localToken != null) {
           state.token = JSON.parse(localToken)
-          return localToken
         }
       }
       return state.token

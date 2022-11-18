@@ -267,7 +267,7 @@
                     }).then(res => {
                         store.commit("SET_TOKEN",res.token)
                         store.commit("SET_USER_INFO",res.userInfo)
-                        router.back()
+                        router.go(-1)
                     })
                 }
             }

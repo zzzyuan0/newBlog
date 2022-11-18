@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 文档 前端控制器
+ * 记录用户什么时候点赞了 前端控制器
  * </p>
  *
  * @author 
- * @since 2022-04-13
+ * @since 2022-11-17
  */
 @RestController
-@RequestMapping("/doc")
-public class DocController {
+@RequestMapping("/comment-user-like")
+public class CommentUserLikeController {
 
 }

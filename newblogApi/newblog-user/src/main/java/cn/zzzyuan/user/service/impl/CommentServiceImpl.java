@@ -1,10 +1,8 @@
 package cn.zzzyuan.user.service.impl;
 
-import cn.zzzyuan.user.entity.CommentTree;
-import cn.zzzyuan.user.entity.Info;
+import cn.zzzyuan.user.entity.*;
 import cn.zzzyuan.user.mapper.CommentMapper;
 import cn.zzzyuan.user.service.CommentService;
-import cn.zzzyuan.user.entity.Comment;
 import cn.zzzyuan.user.service.InfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -37,15 +35,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 
     @Override
-    public List<CommentTree> selectByArticleGetComment(Integer id) {
-        List<Comment> comments = this.list(new QueryWrapper<Comment>().eq("article_id", id).eq("status", 0));
+    public List<CommentTree> selectByArticleAndUserIdGetComment(Integer articleId, Integer userId) {
+        List<UserIsLikeComment> comments = baseMapper.SelectUserIsLikeCommentInfo(articleId, userId);
         List<CommentTree> commentTrees = new ArrayList<>();
         if(comments == null || comments.size() == 0){
             return commentTrees;
         }
 
         ArrayList<Integer> integers = new ArrayList<>();
-        for (Comment comment : comments) {
+        for (UserIsLikeComment comment : comments) {
             integers.add(comment.getUserId());
         }
         List<Info> list = infoService.list(new QueryWrapper<Info>().select("id", "avatar", "email", "name").in("id", integers));
@@ -57,8 +55,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<CommentTree> finalCommentTrees = commentTrees;
 // 0 == null 会报空指针 ， 因为Integer的null 拆箱 intValue
         Integer a = 0;
-        List<Comment> collect = comments.stream().filter(e -> a.equals(e.getParentId())).collect(Collectors.toList());
-        for (Comment comment : collect) {
+        List<UserIsLikeComment> collect = comments.stream().filter(e -> a.equals(e.getParentId())).collect(Collectors.toList());
+        for (UserIsLikeComment comment : collect) {
             finalCommentTrees.add(CommentTree.builder().comment(comment).info(integerInfoHashMap.get(comment.getUserId())).level(0).build());
         }
         commentTrees = getCommentTree(finalCommentTrees.stream().sorted().collect(Collectors.toList()), comments, integerInfoHashMap,1);
@@ -66,12 +64,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
 
-    private List<CommentTree> getCommentTree(List<CommentTree> commentTrees, List<Comment> comments,Map<Integer, Info> integerInfoHashMap, Integer level){
+    private List<CommentTree> getCommentTree(List<CommentTree> commentTrees, List<UserIsLikeComment> comments,Map<Integer, Info> integerInfoHashMap, Integer level){
 
         for (CommentTree commentTree : commentTrees) {
             List<CommentTree> childCommentTrees = new ArrayList<>();
             Integer parentId = commentTree.getComment().getId();
-            List<Comment> collect = comments.stream().filter(e -> parentId.equals(e.getParentId())).collect(Collectors.toList());
+            List<UserIsLikeComment> collect = comments.stream().filter(e -> parentId.equals(e.getParentId())).collect(Collectors.toList());
 
             if (collect.size() != 0) {
                 List<CommentTree> finalCommentTrees = new ArrayList<>();

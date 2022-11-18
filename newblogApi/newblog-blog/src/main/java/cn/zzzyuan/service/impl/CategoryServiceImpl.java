@@ -31,7 +31,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     @Cacheable("categoryList")
     public List<Category> getAllCategory() {
-        log.info("categoryList 获取=========================================");
         return list();
     }
 
@@ -39,7 +38,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @CacheEvict(value = "categoryList", allEntries = true)
     public Boolean addCategory(Integer parentId, String name) {
         return true;
-//        return update(new UpdateWrapper<Category>().set(, , ));
     }
 
 }
