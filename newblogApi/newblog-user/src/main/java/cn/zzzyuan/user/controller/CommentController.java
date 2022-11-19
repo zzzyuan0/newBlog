@@ -124,4 +124,21 @@ public class CommentController {
         return ResponseResult.error();
     }
 
+    @GetMapping("/delete")
+    public ResponseResult deleteComment(@RequestParam("commentId") Integer commentId,
+                                        @RequestParam("userId") Integer userId) {
+        boolean remove = commentService.remove(new QueryWrapper<Comment>().eq("id", commentId)
+                .eq("user_id", userId));
+        // 父评论删除成功
+        if (remove) {
+            // todo 仅删除了子评论，更下层级的未删
+            commentService.remove(new QueryWrapper<Comment>().eq("parent_id", commentId));
+            // 删除所有点赞记录
+            commentUserLikeService.remove(new QueryWrapper<CommentUserLike>()
+                    .eq("comment_id", commentId));
+            return ResponseResult.success();
+        }
+        return ResponseResult.error();
+    }
+
 }

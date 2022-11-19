@@ -8,13 +8,13 @@
             SELECT count(1) AS cnt
             FROM t_user_comment_user_like l
             WHERE l.comment_id = c.id
-        ) AS is_like
+        ) AS heat
         , (
             SELECT count(1) AS cnt
             FROM t_user_comment_user_like l
             WHERE l.comment_id = c.id
                 AND user_id = #{param2}
-        ) AS heat
+        ) AS is_like
         FROM t_user_comment c
         WHERE c.article_id = #{param1}
     </select>

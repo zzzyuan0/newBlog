@@ -1,38 +1,28 @@
 package cn.zzzyuan.user.entity;
 
-import cn.zzzyuan.user.entity.Comment;
-import cn.zzzyuan.user.entity.Info;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author codesuperman@foxmail.com
- * @date 2022-02-05
+ * @date 2022-11-18
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentTree implements Serializable,Comparable<CommentTree> {
+@AllArgsConstructor
+@Data
+public class CommentLeaf implements Serializable,Comparable<CommentLeaf> {
 
     private UserIsLikeComment comment;
 
     private Info info;
 
-    private List<CommentLeaf> commentList;
-
-    private Integer level;
-
     @Override
-    public int compareTo(CommentTree o) {
+    public int compareTo(CommentLeaf o) {
         return comment.getCreateTime().compareTo(o.getComment().getCreateTime());
     }
-
 }
-
-

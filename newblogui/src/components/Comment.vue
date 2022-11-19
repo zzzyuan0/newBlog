@@ -5,25 +5,33 @@
                 <el-avatar :src="comment.info.avatar">猿</el-avatar>
                 <label style="margin: 2.5vh 1vw;position: relative;">{{comment.info.name}}</label>
             </div>
-            <label class="comment-content">{{comment.comment.content}}</label>
+            <div class="comment-content">{{comment.comment.content}}</div>
             <div class="icon">
                 {{comment.comment.createTime}}
                 <i class="iconfont icon-dianzan" style="margin: 0 1vw" :style="{color: comment.comment.isLike ? '#f09180' : ''}"
                    @click="saveCommentHeat(comment.comment)">{{comment.comment.heat}}</i>
                 <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(comment.comment.id)"></i>
+                <i class="iconfont icon-lajitong" style="margin: 0 1vw" v-if="comment.info.id === userId" @click="deleteComment(comment.comment.id)"></i>
             </div>
-            <div class="child" v-if="comment.commentTrees != null">
-                <div class="comment-child" v-for="item in comment.commentTrees">
+            <div class="child" v-if="comment.commentList != null">
+                <div class="comment-child" v-for="item in comment.commentList">
                     <div class="info" style="display: flex">
                         <el-avatar :src="item.info.avatar">猿</el-avatar>
                         <label style="margin: 2.5vh 1vw;position: relative;">{{item.info.name}}</label>
                     </div>
-                    <label class="comment-content">{{item.comment.content}}</label>
+                    <div class="comment-content">
+                        <span class="reviewer" style="background: rgba(198,193,193,0.34)" v-if="commentMap.get(item.comment.parentId) != null">
+                        回复 {{commentMap.get(item.comment.parentId)}} :
+                    </span>
+                        {{item.comment.content}}
+                    </div>
                     <div class="icon">
                         {{item.comment.createTime}}
                         <i class="iconfont icon-dianzan" style="margin: 0 1vw" :style="{color: item.comment.isLike ? '#f09180' : ''}"
                            @click="saveCommentHeat(item.comment)">{{item.comment.heat}}</i>
                         <i class="iconfont icon-pinglun" style="margin: 0 1vw" @click="editComment(item.comment.id)"></i>
+                        <i class="iconfont icon-lajitong" style="margin: 0 1vw" v-if="item.info.id === userId"
+                           @click="deleteComment(item.comment.id)"></i>
                     </div>
                 </div>
             </div>
@@ -46,7 +54,7 @@
 
 <script>
     import {reactive, ref, onMounted} from "vue"
-    import {getCommentApi, addCommentHeatApi, saveCommentApi, deleteCommentHeatApi} from "../api/user"
+    import {getCommentApi, addCommentHeatApi, saveCommentApi, deleteCommentHeatApi, deleteCommentApi} from "../api/user"
     import {useStore} from "vuex"
     export default {
         name: "Comment",
@@ -64,19 +72,30 @@
                 status: 0
             })
             let userId = ref(-1)
+            let commentMap = reactive(new Map())
             const store = useStore()
             onMounted(()=>{
                 let userInfo = store.getters.getUser
                 if(userInfo && userInfo.id) {
                     userId.value = userInfo.id
                 }
+                getComment()
+            })
+            function getComment() {
                 getCommentApi({
                     articleId: props.articleId,
                     userId: userId.value
                 }).then(res => {
+                    if(res) {
+                        for (let i = 0; i < res.length ; i++) {
+                            for (let j = 0; res[i].commentList && j < res[i].commentList.length; j++) {
+                                commentMap.set(res[i].commentList[j].comment.id, res[i].commentList[j].info.name)
+                            }
+                        }
+                    }
                     Object.assign(commentTree, res)
                 })
-            })
+            }
             // 点赞以及取消赞
             function saveCommentHeat(comment) {
                  if (comment.isLike) {
@@ -105,15 +124,24 @@
             }
             // 保存评论
             function saveComment() {
-                 showEdit.value = false
-                console.log(commentReq)
-                commentReq.userId = userId
+                showEdit.value = false
+                commentReq.userId = userId.value
                  saveCommentApi(commentReq).then(res =>{
-                     console.log(res)
+                     getComment()
                  })
             }
+            // 删除评论
+            function deleteComment(commentId) {
+                deleteCommentApi({
+                    commentId: commentId,
+                    userId: userId.value
+                }).then(res => {
+                    getComment()
+                })
+            }
             return {
-                commentTree,props, saveCommentHeat, showEdit, commentReq, editComment, saveComment
+                commentTree,props, saveCommentHeat, showEdit, commentReq,
+                editComment, saveComment, commentMap, deleteComment, userId
             }
         }
     }
@@ -139,7 +167,7 @@
             line-height: 5vh;
             padding: 5px;
             .icon {
-                float: right;
+                text-align: right;
                 *:hover {
                     color: #656060;
                 }

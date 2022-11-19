@@ -59,12 +59,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         for (UserIsLikeComment comment : collect) {
             finalCommentTrees.add(CommentTree.builder().comment(comment).info(integerInfoHashMap.get(comment.getUserId())).level(0).build());
         }
-        commentTrees = getCommentTree(finalCommentTrees.stream().sorted().collect(Collectors.toList()), comments, integerInfoHashMap,1);
+        commentTrees = getCommentTree(finalCommentTrees.stream().sorted().collect(Collectors.toList()), comments, integerInfoHashMap);
         return commentTrees;
     }
 
-
-    private List<CommentTree> getCommentTree(List<CommentTree> commentTrees, List<UserIsLikeComment> comments,Map<Integer, Info> integerInfoHashMap, Integer level){
+    /**
+     * 获取评论树，获取一级评论下面的所有评论并按时间顺序排序
+     * @param commentTrees 一级评论树
+     * @param comments 该文章下面所有评论
+     * @param integerInfoHashMap
+     * @return
+     */
+    private List<CommentTree> getCommentTree(List<CommentTree> commentTrees, List<UserIsLikeComment> comments,Map<Integer, Info> integerInfoHashMap){
 
         for (CommentTree commentTree : commentTrees) {
             List<CommentTree> childCommentTrees = new ArrayList<>();
@@ -72,15 +78,31 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             List<UserIsLikeComment> collect = comments.stream().filter(e -> parentId.equals(e.getParentId())).collect(Collectors.toList());
 
             if (collect.size() != 0) {
-                List<CommentTree> finalCommentTrees = new ArrayList<>();
+                List<CommentLeaf> commentLeaves = new ArrayList<>();
                 collect.forEach(e -> {
-                    finalCommentTrees.add(CommentTree.builder().comment(e).info(integerInfoHashMap.get(e.getUserId())).level(level).build());
+                    commentLeaves.add(CommentLeaf.builder().comment(e).info(integerInfoHashMap.get(e.getUserId())).build());
+                    commentLeaves.addAll(getCommentLeaf(e, comments, integerInfoHashMap));
                 });
-                Collections.sort(finalCommentTrees);
-                commentTree.setCommentTrees(getCommentTree(finalCommentTrees, comments, integerInfoHashMap,level + 1));
+                Collections.sort(commentLeaves);
+                commentTree.setCommentList(commentLeaves);
             }
         }
         return commentTrees;
     }
+
+    private List<CommentLeaf> getCommentLeaf(UserIsLikeComment userIsLikeComments, List<UserIsLikeComment> comments,
+                                                   Map<Integer, Info> integerInfoHashMap) {
+        List<UserIsLikeComment> collect = comments.stream().filter(e -> userIsLikeComments.getId().equals(e.getParentId())).collect(Collectors.toList());
+        List<CommentLeaf> commentLeaves = new ArrayList<>(collect.size());
+        if(collect.size() != 0) {
+            for (UserIsLikeComment userIsLikeComment : collect) {
+                commentLeaves.add(CommentLeaf.builder().comment(userIsLikeComment).info(integerInfoHashMap.get(userIsLikeComment.getUserId())).build());
+                List<CommentLeaf> commentLeaf = getCommentLeaf(userIsLikeComment, comments, integerInfoHashMap);
+                commentLeaves.addAll(commentLeaf);
+            }
+        }
+        return commentLeaves;
+    }
+
 
 }
