@@ -36,8 +36,8 @@
         <left-menu id="leftMenu"></left-menu>
         <right-menu id="rightMenu" ref="rightMenu"></right-menu>
         <Music></Music>
-        <div id="foot">
-        </div>
+        <user-menu id="user-menu"></user-menu>
+        <div id="foot"></div>
     </div>
     <video src="../assets/video/sakura.mp4" style="width: 100%;height: 100%;object-fit: cover;position: absolute;top: 0;left: 0;z-index: -99;" autoplay="autoplay" loop="loop" muted="muted"></video>
 </template>
@@ -46,15 +46,15 @@
 import {loadComponent} from "../utils/importUtil"
 import {getIndexApi} from "../api/blog";
 import {ref,reactive,onMounted,onUnmounted} from "vue"
-import Head from "../components/Head";
 
 export default {
   name: 'Index',
   components: {
-      Heads: Head,
+      Heads: loadComponent("Head"),
       LeftMenu: loadComponent("LeftMenu"),
       RightMenu: loadComponent("RightMenu"),
-      Music: loadComponent("Music")
+      Music: loadComponent("Music"),
+      UserMenu: loadComponent("UserMenu")
   },
   setup(){
       // 判断一个还是两个置顶文章
@@ -137,6 +137,7 @@ export default {
                 padding-bottom: 5vh;
                 position: relative;
                 z-index: -1;
+                transition: all 1s;
                 #sticks,.article{
                     width: 90%;
                     position: relative;
@@ -145,6 +146,7 @@ export default {
                     display: block;
                     z-index: 999;
                     pointer-events: auto;
+                    transition: all 1s;
                     .title{
                         width: 100%;
                         min-height: 100%;
@@ -172,9 +174,11 @@ export default {
                     background-image: url("https://tva1.sinaimg.cn/large/0072Vf1pgy1foxkfgr4ckj31hc0u0h0r");
                     animation: 2s articleShow ease-in-out;
                     vertical-align: middle;
+                    transition: all 1s;
                 }
                 .article,.stick {
                     transition: all 1s;
+                    transform: scale(1);
                     &:after{
                         content: "";
                         transform: scale(1);
@@ -183,6 +187,7 @@ export default {
                     &:hover{
                         width:  95%;
                         height: 47vh;
+                        transition: all 1s;
                         &:after {
                             transition: all 1s;
                             transform: scale(1.1);
@@ -193,12 +198,37 @@ export default {
                             left: 0;
                             top: 0;
                             border-radius: 15px;
-                            background: inherit;
-                            position: absolute;
-                            -webkit-filter: blur(4px);
-                            -moz-filter: blur(4px);
-                            -ms-filter: blur(4px);
-                            filter: blur(4px);
+                            0% {
+                            }
+                            20% {
+                                background: inherit;
+                                -webkit-filter: blur(1px);
+                                -moz-filter: blur(1px);
+                                -ms-filter: blur(1px);
+                                filter: blur(1px);
+                            }
+                            50% {
+                                background: inherit;
+                                -webkit-filter: blur(2px);
+                                -moz-filter: blur(2px);
+                                -ms-filter: blur(2px);
+                                filter: blur(2px);
+                            }
+                            70% {
+                                background: inherit;
+                                -webkit-filter: blur(3px);
+                                -moz-filter: blur(3px);
+                                -ms-filter: blur(3px);
+                                filter: blur(3px);
+                            }
+                            100% {
+                                background: inherit;
+                                -webkit-filter: blur(4px);
+                                -moz-filter: blur(4px);
+                                -ms-filter: blur(5px);
+                                filter: blur(4px);
+                            }
+
                             z-index: 2;
                         }
 
@@ -252,7 +282,7 @@ export default {
             .fun_color();
             min-height: 20vh;
         }
-        #leftMenu,#rightMenu {
+        #leftMenu,#rightMenu,#user-menu {
             z-index: 999;
         }
     }

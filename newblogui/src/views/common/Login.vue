@@ -98,7 +98,7 @@
     import {ref,reactive} from "vue"
     import {useStore} from "vuex"
     import { ElForm } from 'element-plus'
-    import {postLoginApi, postRegisterApi} from "../../api/common";
+    import {postLoginApi, postRegisterApi} from "../../api/user";
     import {useRouter} from "vue-router";
 
 
