@@ -17,10 +17,12 @@
                 </div>
             </template>
         </child-head>
-        <div id="context" v-html="articleInfo.article.content"></div>
-        <comment :articleId="articleId"></comment>
-        <left-menu></left-menu>
-        <right-menu ref="rightMenu"></right-menu>
+        <div id="context" v-html="articleInfo.article.content">
+        </div>
+        <comment v-if="articleId !== 0" :articleId="articleId"></comment>
+        <left-menu id="leftMenu"></left-menu>
+        <right-menu id="rightMenu" ref="rightMenu"></right-menu>
+        <user-menu id="user-menu"></user-menu>
     </div>
 </template>
 
@@ -37,7 +39,8 @@
             RightMenu: loadComponent("RightMenu"),
             Music: loadComponent("Music"),
             ChildHead: loadComponent("ChildHead"),
-            Comment: loadComponent("Comment")
+            Comment: loadComponent("Comment"),
+            UserMenu: loadComponent("UserMenu")
         },
         setup(props, context){
             let articleInfo = reactive({
@@ -62,6 +65,7 @@
                         Object.assign(articleInfo, res)
                         articleInfo.article.content = marked(articleInfo.article.content)
                     })
+
             })
             let listenMethod = ()=>{}
 
@@ -78,16 +82,9 @@
     }
     }
 </script>
-<style>
-    body{
-        margin: 0 auto;
-        font-family: "Microsoft YaHei", arial,sans-serif;
-        color: #ffffff;
-        line-height: 1;
-    }
+<style lang="less" src="../../conf/markDownStyle.less">
 </style>
 <style lang="less" scoped>
-    @import "../../conf/markDownStyle.css";
 
 
     #context{
@@ -118,6 +115,7 @@
                 padding: 1px 5px;
                 border-radius: 15px;
             }
+
         }
 
     }

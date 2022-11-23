@@ -75,5 +75,9 @@ public class Article implements Serializable {
      */
     private Integer visibility;
 
+    /**
+     * 是否置顶 0 否 1是
+     */
+    private Integer isTop;
 
 }

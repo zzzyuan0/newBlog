@@ -1,6 +1,7 @@
 package cn.zzzyuan.user.feign;
 
 
+import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.common.entity.Token;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public interface AuthFeign {
     * @RequestParam 将参数拼接
     */
     @PostMapping("/oauth/token")
-    Token getOauthToken(@RequestParam HashMap<String, String> req);
+    HashMap<String, Object> getOauthToken(@RequestParam HashMap<String, String> req);
 
     /**
      *  远程调用检查token是否正确

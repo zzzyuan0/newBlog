@@ -24,7 +24,9 @@ import java.util.List;
  * @since 2021-11-10
  */
 @Data
-@Accessors(chain = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArticleDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,9 +75,13 @@ public class ArticleDTO implements Serializable {
      */
     private Integer visibility;
 
-    /*
+    /**
     *  文章分类信息
     */
     private List<Category> categories;
 
+    /**
+     * 是否置顶 0 否 1是
+     */
+    private Integer isTop;
 }

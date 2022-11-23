@@ -4,9 +4,12 @@ package cn.zzzyuan.controller;
 import cn.hutool.core.map.MapUtil;
 import cn.zzzyuan.common.entity.ResponseResult;
 import cn.zzzyuan.entity.Article;
+import cn.zzzyuan.entity.ImgUrl;
 import cn.zzzyuan.entity.dto.ArticleDTO;
 import cn.zzzyuan.feign.UserFeign;
 import cn.zzzyuan.service.ArticleService;
+import cn.zzzyuan.service.ImgUrlService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.hashids.Hashids;
@@ -14,7 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,15 +46,18 @@ public class ArticleController {
     @Value("${cache.key.ArticleHeatCacheKey}")
     private String articleHeatCacheKey;
 
+    private final ImgUrlService imgUrlService;
 
-    public ArticleController(ArticleService articleService, UserFeign userFeign, Hashids hashids, StringRedisTemplate stringRedisTemplate) {
+
+    public ArticleController(ArticleService articleService, UserFeign userFeign, Hashids hashids, StringRedisTemplate stringRedisTemplate, ImgUrlService imgUrlService) {
         this.articleService = articleService;
         this.userFeign = userFeign;
         this.hashids = hashids;
         this.stringRedisTemplate = stringRedisTemplate;
+        this.imgUrlService = imgUrlService;
     }
 
-    /*
+    /**
     * 通过文章id获取文章信息
     */
     @GetMapping("/get")
@@ -75,6 +83,24 @@ public class ArticleController {
         }
 
         return ResponseResult.success(result);
+    }
+
+    /**
+     * 获取置顶博客
+     */
+    @GetMapping("/top")
+    public ResponseResult getTopArticle() {
+        List<Article> topArticle = articleService.list(new QueryWrapper<Article>().eq("is_top", 1));
+        List<ArticleDTO> dtos = new ArrayList<>(topArticle.size());
+        for (Article article : topArticle) {
+            dtos.add(ArticleDTO.builder().id(hashids.encode(article.getId()))
+            .title(article.getTitle()).build());
+        }
+        List<ImgUrl> randomImg = imgUrlService.getRandomImg(topArticle.size());
+
+        return ResponseResult.success(MapUtil.builder()
+                .put("topArticle", dtos)
+                .put("imgs", randomImg).build());
     }
 
 }

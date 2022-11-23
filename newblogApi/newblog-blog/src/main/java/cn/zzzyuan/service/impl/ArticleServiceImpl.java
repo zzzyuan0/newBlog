@@ -63,10 +63,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         continue;
                     }
                     String[] values = value.split("\\$");
-                    list.add(list.size(),new ArticleDTO()
-                            .setId(values[0])
-                            .setTitle(values[1])
-                            .setHeat(typedTuple.getScore().intValue()));
+                    list.add(list.size(), ArticleDTO.builder()
+                            .id(values[0])
+                            .title(values[1])
+                            .heat(typedTuple.getScore().intValue()).build());
                 }
                 return list;
             }
@@ -79,10 +79,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         for (Article article : Articles) {
             // id 加密
             String encodeId = hashids.encode(article.getId());
-            list.add(new ArticleDTO()
-                    .setId(encodeId)
-                    .setTitle(article.getTitle())
-                    .setHeat(article.getHeat()));
+            list.add(ArticleDTO.builder()
+                    .id(encodeId)
+                    .title(article.getTitle())
+                    .heat(article.getHeat()).build());
             //  缓存至数据库
             redisTemplate.opsForZSet().add(articleHeatCacheKey,
                     encodeId + "$" + article.getTitle(),
@@ -120,11 +120,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<Article> articles = iPage.getRecords();
         List<ArticleDTO> dtoArrayList = new ArrayList<>(articles.size());
         for (Article record : articles) {
-            dtoArrayList.add(new ArticleDTO()
-                    .setTitle(record.getTitle())
-                    .setId(hashids.encode(record.getId())));
+            dtoArrayList.add( ArticleDTO.builder()
+                    .title(record.getTitle())
+                    .id(hashids.encode(record.getId())).build());
         }
-        HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+        HashMap<String, Object> stringObjectHashMap = new HashMap<>(3);
         stringObjectHashMap.put("articleList", dtoArrayList);
         stringObjectHashMap.put("currentPage", iPage.getCurrent());
         stringObjectHashMap.put("total", iPage.getTotal());
