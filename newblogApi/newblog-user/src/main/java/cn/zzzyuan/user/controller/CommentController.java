@@ -60,9 +60,9 @@ public class CommentController {
        return ResponseResult.error();
     }
 
-    @GetMapping("/heat-list")
+    @GetMapping("/newCommentList")
     public ResponseResult getCommentHeatList(@RequestParam(name = "num") Integer num){
-        List<Comment> comments = commentService.list(new QueryWrapper<Comment>().orderByDesc("heat").last("limit 0," + num));
+        List<Comment> comments = commentService.list(new QueryWrapper<Comment>().orderByDesc("create_time").last("limit 0," + num));
         ArrayList<Integer> users = new ArrayList<>();
         for (Comment comment : comments) {
             users.add(comment.getUserId());
@@ -72,8 +72,11 @@ public class CommentController {
             List<Info> infos = infoService.list(new QueryWrapper<Info>().in("id", users)
                     .select("avatar","name"));
             for (Comment comment : comments) {
+
                 mapList.add(MapUtil.builder(new HashMap<String,Object>(2))
-                        .put("comment", comment).put("info",infos.size() != 0 ? infos.get(0) : new Info() ).build());
+                        .put("commentContent", comment.getContent())
+                        .put("articleId", hashids.encode(comment.getArticleId()))
+                        .put("info",infos.size() != 0 ? infos.get(0) : new Info() ).build());
             }
         }
 

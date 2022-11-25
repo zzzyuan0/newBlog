@@ -23,7 +23,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
     res = res.data
     if (res.code >= 400) {
-        alert(res.msg)
+        ElMessage({
+            type: 'error',
+            message: res.msg + "\n" + res.data,
+        })
     }
         return res.data;
     },
@@ -33,7 +36,8 @@ axios.interceptors.response.use(res => {
             case 401:goLogin();break;
             default: ElMessage({
                 type: 'error',
-                message: error,
+                message: error.response.data.msg +
+                    "\n" + error.response.data.data,
             })
         }
         return Promise.reject(error)
