@@ -16,24 +16,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler{
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseResult illegalArgumentException(IllegalArgumentException e){
         log.error(getExceptionDetail(e));
-        return ResponseResult.error(ResponseContent.ILLEGAL_ARGUMENT.msg(),ResponseContent.ILLEGAL_ARGUMENT.code(),null);
+        return ResponseResult.error(ResponseContent.ILLEGAL_ARGUMENT.msg(),ResponseContent.ILLEGAL_ARGUMENT.code(), e.getMessage());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseResult missingServletRequestParameterException(MissingServletRequestParameterException e){
         log.error(getExceptionDetail(e));
-        return ResponseResult.error(ResponseContent.MISS_PARAMETER.msg(),ResponseContent.MISS_PARAMETER.code(),null);
+        return ResponseResult.error(ResponseContent.MISS_PARAMETER.msg(),ResponseContent.MISS_PARAMETER.code(), e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseResult allException(Exception e){
         log.error(getExceptionDetail(e));
-        return ResponseResult.error(ResponseContent.ERROR.msg(),ResponseContent.ERROR.code(),null);
+        return ResponseResult.error(ResponseContent.ERROR.msg(),ResponseContent.ERROR.code(), e.getMessage());
     }
 
     public  String getExceptionDetail(Exception e) {
@@ -44,7 +44,6 @@ public class GlobalExceptionHandler{
         StackTraceElement[] arr = e.getStackTrace();
         for (StackTraceElement stackTraceElement : arr) {
             stringBuilder.append(stackTraceElement.toString()).append(System.getProperty("line.separator"));
-
         }
         return stringBuilder.toString();
     }
