@@ -12,6 +12,6 @@ public interface TokenService {
      * 获取token
      * @return
      */
-    public Token getToken(String username, String password);
+    public Token getToken(String username, String password) throws Exception;
 
 }

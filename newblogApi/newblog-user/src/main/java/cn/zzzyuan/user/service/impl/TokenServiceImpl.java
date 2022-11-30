@@ -50,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
 
 
     @Override
-    public Token getToken(String username, String password) {
+    public Token getToken(String username, String password) throws Exception {
         HashMap<String, String> valueMap = new LinkedHashMap<>();
         valueMap.put("username", username);
         valueMap.put("password",password);
@@ -58,7 +58,15 @@ public class TokenServiceImpl implements TokenService {
         valueMap.put("client_id", clientId);
         valueMap.put("client_secret", clientSecret);
         valueMap.put("scope", scope);
-        Token oauthToken = authFeign.getOauthToken(valueMap);
-        return oauthToken;
+        HashMap<String, Object> result = null;
+        try {
+            result = authFeign.getOauthToken(valueMap);
+        } catch (Exception e) {
+            throw new Exception("身份信息验证失败");
+        }
+
+        Token token = new Token();
+        BeanUtil.copyProperties(result, token);
+        return token;
     }
 }
