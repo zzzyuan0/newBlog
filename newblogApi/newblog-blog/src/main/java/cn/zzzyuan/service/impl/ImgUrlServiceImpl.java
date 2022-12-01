@@ -18,9 +18,12 @@ public class ImgUrlServiceImpl extends ServiceImpl<ImgUrlMapper, ImgUrl>  implem
 
     @Override
     public List<ImgUrl> getRandomImg(Integer num) {
+        if (num == 0) {
+            return new ArrayList<>();
+        }
         int count = this.count();
         Set<Integer> set = new HashSet<>();
-        for ( ; set.size() <= num ; ) {
+        for ( ; set.size() < num ; ) {
             set.add(RandomUtil.randomInt(0,count - 1));
         }
         return listByIds(set);

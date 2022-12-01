@@ -4,21 +4,16 @@
         <div id="container" ref="container">
             <div id="articles">
                 <div id="sticks">
-                    <router-link to="/article" class="stick" :style="stickOneOrTwo">
+                    <router-link :to="`/article/${item.id}`"  class="stick" :style="
+                    {backgroundImage: `url(${topArticles.imgs[index].imgUrl})`,
+                    width: topArticles.topArticle.length === 2 ? '48%' : '100%' }" v-for="(item, index) in topArticles.topArticle">
                         <div >
                             <div class="stickIcon">
                                 置顶
                             </div>
-                            <div class="title">第一章</div>
+                            <div class="title">{{item.title}}</div>
                             <div class="categories">
                                 <label class="category"></label>
-                            </div>
-                        </div>
-                    </router-link>
-                    <router-link to="/article" class="stick" :style="stickOneOrTwo">
-                        <div>
-                            <div class="stickIcon" >
-                                置顶
                             </div>
                         </div>
                     </router-link>
@@ -39,12 +34,13 @@
         <user-menu id="user-menu"></user-menu>
         <div id="foot"></div>
     </div>
-    <video src="../assets/video/sakura.mp4" style="width: 100%;height: 100%;object-fit: cover;position: absolute;top: 0;left: 0;z-index: -99;" autoplay="autoplay" loop="loop" muted="muted"></video>
+    <video src="../assets/video/sakura.mp4" style="width: 100%;height: 100%;object-fit: cover;position: absolute;top: 0;
+    left: 0;z-index: -99;" autoplay="autoplay" loop="loop" muted="muted"></video>
 </template>
 
 <script>
 import {loadComponent} from "../utils/importUtil"
-import {getIndexApi} from "../api/blog";
+import {getIndexApi, getTopArticle} from "../api/blog";
 import {ref,reactive,onMounted,onUnmounted} from "vue"
 
 export default {
@@ -58,12 +54,13 @@ export default {
   },
   setup(){
       // 判断一个还是两个置顶文章
-      const stickOneOrTwo = ref({width:"48%"} )
+      const stickOneOrTwo = reactive({width:"48%"} )
 // 动态加载文章
       let articles = reactive([{
           id:0,
           title:''
       }])
+      let topArticles = reactive({})
       let showArticlesArr = reactive([])
 
       let imgPath = reactive([])
@@ -74,6 +71,14 @@ export default {
           Object.assign(showArticlesArr, articles)
           // 响应式赋值
           Object.assign(imgPath,res.imgList)
+      })
+
+      getTopArticle().then(res => {
+          Object.assign(topArticles, res)
+          console.log(topArticles)
+          if (res.topArticle.length == 1) {
+              stickOneOrTwo.width = "100%"
+          }
       })
 
 
@@ -95,7 +100,7 @@ export default {
       let listenMethod = ()=>{}
 
       return {
-          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod,imgPath
+          stickOneOrTwo,autoShowArticles,showArticlesArr,listenMethod,imgPath, topArticles
       }
   },mounted() {
         this.listenMethod = setInterval(()=>{
@@ -143,18 +148,19 @@ export default {
                     position: relative;
                     height: 45vh;
                     margin: 0 auto;
-                    display: block;
                     z-index: 999;
                     pointer-events: auto;
                     transition: all 1s;
+                    display: table;
                     .title{
                         width: 100%;
-                        min-height: 100%;
-                        line-height: 45vh;
+                        top: 50%;
+                        transform: translate(0, -50%);
+                        vertical-align: middle;
+                        display: table-cell;
                         text-align: center;
                         margin: 0 auto;
                         position: absolute;
-                        align-items: center;
                         color: whitesmoke;
                         font-size: 3vw;
                         font-family: 微软雅黑;
@@ -171,25 +177,15 @@ export default {
                     background-repeat: no-repeat;
                     background-size: cover;
                     overflow: hidden;
-                    background-image: url("https://tva1.sinaimg.cn/large/0072Vf1pgy1foxkfgr4ckj31hc0u0h0r");
                     animation: 2s articleShow ease-in-out;
                     vertical-align: middle;
                     transition: all 1s;
                 }
-                .article,.stick {
-                    transition: all 1s;
-                    transform: scale(1);
-                    &:after{
-                        content: "";
-                        transform: scale(1);
-                        transition: all 1s;
-                    }
+                .fun_hover() {
                     &:hover{
                         width:  95%;
                         height: 47vh;
-                        transition: all 1s;
                         &:after {
-                            transition: all 1s;
                             transform: scale(1.1);
                             content: "";
                             width: 101%;
@@ -198,56 +194,34 @@ export default {
                             left: 0;
                             top: 0;
                             border-radius: 15px;
-                            0% {
-                            }
-                            20% {
-                                background: inherit;
-                                -webkit-filter: blur(1px);
-                                -moz-filter: blur(1px);
-                                -ms-filter: blur(1px);
-                                filter: blur(1px);
-                            }
-                            50% {
-                                background: inherit;
-                                -webkit-filter: blur(2px);
-                                -moz-filter: blur(2px);
-                                -ms-filter: blur(2px);
-                                filter: blur(2px);
-                            }
-                            70% {
-                                background: inherit;
-                                -webkit-filter: blur(3px);
-                                -moz-filter: blur(3px);
-                                -ms-filter: blur(3px);
-                                filter: blur(3px);
-                            }
-                            100% {
-                                background: inherit;
-                                -webkit-filter: blur(4px);
-                                -moz-filter: blur(4px);
-                                -ms-filter: blur(5px);
-                                filter: blur(4px);
-                            }
-
                             z-index: 2;
                         }
 
                     }
                 }
+                .article,.stick {
+                    transition: all 1s;
+                    transform: scale(1);
+                    &:after{
+                        content: "";
+                        transform: scale(1);
+                    }
+                    .fun_hover();
+                }
                 #sticks{
+                    height: auto;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
                     .stick{
+                        height: 45vh;
                         position: relative;
                         display: inline-block;
                         border: #c6246a 3px solid;
                         border-radius: 15px;
-                        height: 100%;
                         background-repeat: no-repeat;
                         background-size: cover;
                         overflow: hidden;
-                        background-image: url("https://tva1.sinaimg.cn/large/0072Vf1pgy1foxkfgr4ckj31hc0u0h0r");
                         .stickIcon{
                             width: 15vw;
                             height: 2vw;
@@ -255,12 +229,14 @@ export default {
                             z-index: 999;
                             position: absolute;
                             overflow: hidden;
+                            background: @mainColor;
                             color: #101010;
                             font-weight: bold;
                             text-align: center;
                             line-height: 2vw;
                             .frosted();
                         }
+                        .fun_hover();
                         &:first-child{
                             animation: 1.5s articleFShow;
                         }

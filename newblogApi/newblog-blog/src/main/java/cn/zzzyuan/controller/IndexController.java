@@ -64,7 +64,7 @@ public class IndexController {
 
 //        获取首页图片
         CompletableFuture<Void> randomImg = CompletableFuture.runAsync(() -> {
-            stringObjectHashMap.put("imgList", imgUrlService.getRandomImg(5));
+            stringObjectHashMap.put("imgList", imgUrlService.getRandomImg(6));
         }, threadPoolExecutor);
 
 

@@ -79,7 +79,7 @@ public class InfoController {
     }
 
     @PostMapping("/login")
-    public ResponseResult login(@Validated @RequestBody LoginDTO loginDTO){
+    public ResponseResult login(@Validated @RequestBody LoginDTO loginDTO) throws Exception {
         log.info("===========登录获取令牌=========");
         Token token = tokenService.getToken(loginDTO.getEmail(), loginDTO.getPassword());
         Info info = null;
