@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author codesuperman@foxmail.com
@@ -75,5 +76,4 @@ public class UserIsLikeComment implements Serializable {
      * 用户是否点赞
      */
     private Boolean isLike;
-
 }

@@ -28,7 +28,7 @@ public interface UserFeign {
      * @param num 排名前几的
      * @return
      */
-    @GetMapping("/comment/heat-list")
+    @GetMapping("/comment/newCommentList")
     @Cacheable(cacheNames = "commentHeatListCache",key = "'commentHeatList' + #num")
     ResponseResult getCommentHeatList(@RequestParam(name = "num") Integer num);
 
