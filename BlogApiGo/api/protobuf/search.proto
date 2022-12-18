@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package="../;api";
+
+service Search {
+  rpc SearchBlog(SearchBlogReq) returns (SearchBlogResp);
+  rpc SearchOJ(SearchOJReq) returns (SearchOJResp);
+}
+
+message SearchBlogReq {
+    string query = 1; // 查询语句
+    repeated string categories = 2; // 查询分类
+}
+message SearchBlogResp{}
+
+message SearchOJReq{}
+
+message SearchOJResp{}
